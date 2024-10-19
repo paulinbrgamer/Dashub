@@ -54,12 +54,6 @@ class grafico{
     }
 }
 
-
-
-
-
-
-
 function drawnDash(){
     var dashs = ''
     user.dashboard.forEach(d => {
