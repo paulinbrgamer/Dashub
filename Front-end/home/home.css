@@ -1,0 +1,36 @@
+*{
+    color: white;
+    font-weight: 400;
+    
+}
+body{
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    grid-template-rows: 1fr;
+}
+main{
+    grid-column: 2/3;
+    grid-row: 1/2;
+    background-color: antiquewhite;
+    background-color: #121212;
+}
+aside{
+    display: flex;
+    justify-content: center;
+    grid-column: 1/2;
+    grid-row: 1/2;
+    background-color: #222222;
+}
+.item{
+    padding: 15px 40px;
+    border-bottom:1px solid #CAC4D0;
+    
+}
+h2{
+    font-size: 14pt;
+}
+h1{
+    font-size: 16pt;
+}

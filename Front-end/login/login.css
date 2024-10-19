@@ -1,0 +1,45 @@
+.container{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: none;
+    box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    padding: 40px;
+}
+input{
+    
+    
+    text-indent: 5px;
+    font-size: 14pt;
+    padding: 6px; 
+    border-radius: 3px;
+    border: 1px solid gray;
+    margin-bottom: 10px;
+}
+input[type="button"]{
+    transition: all 0.3s ease;
+    cursor: pointer;
+    color: white;
+    margin-top: 20px;
+    background-color: rgb(5, 63, 255);
+    border: none;
+    padding: 10px;
+}
+
+h1{
+    margin: auto;
+}
+label{
+    margin-bottom: 2px;
+}
+body{
+    height: 97vh;
+    background-color: rgba(2, 4, 8, 0.986);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
