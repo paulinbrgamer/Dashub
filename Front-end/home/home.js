@@ -6,6 +6,7 @@ class usuario{
         this.email = email
         this.dashboard = dashboard
         this.ndash = 0
+        this.dashSelected = null
     }
     adicionarDashboard(){
         var iName = document.getElementById('name_dashboard')
@@ -20,7 +21,8 @@ class usuario{
             window.alert("Digite um nome valido") 
         }
     }
-    removerDashboard(id){
+    removerDashboard(event,id){
+        event.stopPropagation();
         this.dashboard.forEach((element,idx) => {
             if (element.id == id){
                 this.dashboard.splice(idx,1)
@@ -28,6 +30,10 @@ class usuario{
         });
         this.ndash--
         drawnDash()
+    }
+    selecionarDash(idx){
+        this.dashSelected = idx
+        
     }
 }
 class dashboard{
@@ -58,9 +64,9 @@ function drawnDash(){
     var dashs = ''
     user.dashboard.forEach(d => {
         dashs += `
-        <div class="dashboard">
+        <div id = "${d.id}" class="dashboard" onclick = "user.selecionarDash(${d.id})">
         <h3>${d.nome}</h3>
-        <button onclick="user.removerDashboard(${d.id})" id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
+        <button onclick="user.removerDashboard(event,${d.id})" id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
         </div>
         `
     });
