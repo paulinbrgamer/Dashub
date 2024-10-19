@@ -28,3 +28,7 @@ input[type="button"]:hover{
 .apagar{
     display: none; 
 }
+.aparecer{
+    display: flex;
+    flex-direction: column;
+}

@@ -66,4 +66,9 @@ function drawnDash(){
     });
     document.getElementById('container-Dashboards').innerHTML = dashs
 }
+function trocar(e){
+    var element = document.getElementById(e)
+    element.classList.add('apagar')
+    element.classList.remove('aparecer')
+}
 var user = new usuario(0,'Paulo','123','paulogmail',[])
