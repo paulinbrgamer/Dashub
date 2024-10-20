@@ -223,18 +223,21 @@ function desenharGraficos(){
             dash.graficos.forEach(g=>{
                 var dados = []
                 g.elementos.forEach((e,id)=>{
-                    var data = new dado(e,g.dados[id],g.cores)
+                    var data = new dado(e,g.dados[id],g.cores[id])
+                    dados.push(data)
                 })
+                dados.sort((a, b) => b.valor - a.valor);
                 if(g.tipo == 'bar'){
                     var grafico = document.getElementById(`g${g.id}`)
                     var ctx = grafico.getContext('2d')
                     var myBarChart = new Chart(ctx, {
                         type: 'bar',  // Especifica o tipo de gráfico: 'bar'
                         data: {
-                          labels: g.elementos, // Rótulos no eixo X
+                          labels: dados.map(d=>d.nome), // Rótulos no eixo X
                           datasets: [{
                             label: g.nome,
-                            data: g.dados,  // Dados para cada mês
+                            data:dados.map(d=>d.valor),
+                            backgroundColor:dados.map(d=>d.cor),  // Dados para cada mês
                             borderWidth: 1 // Largura da borda das barras
                           }]
                         },
@@ -253,7 +256,7 @@ function desenharGraficos(){
     
 }
 var gp = new grafico(0,'bar',['janeiro','fervereiro','março'],[100,123,90],0,'Vendas trimestrais',['green','red','blue'])
-var g2 = new grafico(1,'bar',['sapato','calça','feichadura'],[10,20,30],0,'Artigos')
+var g2 = new grafico(1,'bar',['janeiro','fervereiro','março'],[10,23,30],0,'compras trimestrais',['green','red','blue'])
 var g3 = new grafico(2,'pizza',null,null,0,'Mes movimentado')
 
 var db = new dashboard('teste1',1,[gp,g2,g3],0)
