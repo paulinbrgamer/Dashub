@@ -39,7 +39,7 @@ aside{
 }
 .item{
     border-bottom:1px solid #CAC4D0;
-    padding: 20px 0px 10px;
+    padding: 20px 0px 5px;
 }
 h3{
     font-size: 12pt;
@@ -57,7 +57,7 @@ h1{
     
 }
 #container-Dashboards{
-    height: 50vh;
+    height: 60vh;
     
     padding: 10px;
     overflow: scroll;
@@ -77,24 +77,25 @@ h1{
     cursor: pointer;
 }
 #name_dashboard{
-    margin: 15px 0px 0px 10px;
+    margin: 0px 0px 0px 0px;
     background-color:#3C3C3C;
-    border-radius: 12px;
+    border-radius: 4px;
     text-indent: 10px;
-    padding: 7px 0px;
+    padding: 8px 0px;
     outline: none;
-    width: 74%;
+    width: 79%;
     color: rgb(196, 193, 193);
-    font-size: 12pt;
+    font-size: 10pt;
 }
 #addDash{
-    font-size:20px;
+    
     width: 19%;
-    height: 33px;
+    height: 30px;
     color: white;
     background-color: #0AC00A;
-    border-radius: 7px;
-    margin-left: 0px;
+    border-radius: 4px;
+    margin-left: 5px;
+
 }
 #delete-dash{
     background-color: transparent;
@@ -105,7 +106,6 @@ h1{
 }
 #nav_opcoes{
     width: 80px;
-    
     background-color: #121212;
 }
 .nav_btns{

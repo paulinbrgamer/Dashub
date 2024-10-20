@@ -15,7 +15,7 @@ class usuario{
             this.ndash++
             this.dashboard.push(novoDash)
             iName.value = ''
-            drawnDash()
+            
         }
         else{
             window.alert("Digite um nome valido") 
@@ -65,6 +65,34 @@ function drawnDash(){
         `
     });
     document.getElementById('container-Dashboards').innerHTML = dashs
+}
+function abrirDash(){
+    var teladash =
+    `<div id="menudashboard">
+    
+    <div style="display: flex;flex-direction: column;flex: 1;overflow: scroll;">
+        <h1 class="item">Dashboards</h1>
+        <div id="container-Dashboards">
+
+
+        </div>
+        
+    </div>
+</div>`
+    document.querySelector('#container-home').innerHTML = teladash
+    drawnDash()
+}
+function abrirNovo(){
+    var telanovo = `
+    <div >
+        <h1 class="item">Criar Dashboard</h1>
+        <h5 style="color:rgb(196, 193, 193);margin-top:20px;" for="name_dashboard">Nome </h5>
+        <div style="display:flex; justify-content:center;margin-top:4px;">
+        <input type="text" id="name_dashboard" placeholder="Digite o nome">
+        <button onclick="user.adicionarDashboard()" id="addDash"><img style="width: 16px;" src="/home/img/mais.png" alt="mais"></button>
+        </div>
+    </div>`
+    document.querySelector('#container-home').innerHTML = telanovo
 }
 function trocar(e){
     var element = document.getElementById(e)
