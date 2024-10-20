@@ -46,16 +46,23 @@ class dashboard{
     }
 }
 class grafico{
-    constructor(id,tipo,elementos,dados,id_dash,nome){
+    constructor(id,tipo,elementos,dados,id_dash,nome,cores){
         this.id = id
         this.tipo = tipo
         this.elementos = elementos
         this.dados = dados
         this.id_dash = id_dash
         this.nome = nome
+        this.cores = cores
     }
 }
-
+class dado{
+    constructor(nome,valor,cor){
+        this.nome = nome
+        this.valor = valor
+        this.cor = cor
+    }
+}
 function drawnDash(){
     var dashs = ''
     user.dashboard.forEach(d => {
@@ -192,14 +199,12 @@ function abrirAside(nome){
             aside.classList.toggle('abrir_dash')
             as.clicks=0
             as.botaoAmostra=''
-            console.log(as)
         }
     }else {
         as.clicks=0
         as.clicks++
         as.botaoAmostra = nome
         aside.classList.add('abrir_dash')
-        console.log(as)
     }
 
 }
@@ -210,12 +215,16 @@ function desenharGraficos(){
         if (dash.id == user.dashSelected){
             dash.graficos.forEach(g=>{
                 canvas+= `
-                <div style="background-color:#121212;padding: 10px;margin:10px; border-radius: 10px;flex-grow: 1;">
+                <div style="background-color:#121212;padding: 10px;margin:10px; border-radius: 10px;flex-grow: 1;display:flex;align-items:center;justify-content:center;">
                 <canvas id="g${g.id}"></canvas>
                 </div>`
             })
             container.innerHTML = canvas
             dash.graficos.forEach(g=>{
+                var dados = []
+                g.elementos.forEach((e,id)=>{
+                    var data = new dado(e,g.dados[id],g.cores)
+                })
                 if(g.tipo == 'bar'){
                     var grafico = document.getElementById(`g${g.id}`)
                     var ctx = grafico.getContext('2d')
@@ -243,7 +252,7 @@ function desenharGraficos(){
     })
     
 }
-var gp = new grafico(0,'bar',['janeiro','fervereiro','março'],[100,123],0,'Vendas trimestrais')
+var gp = new grafico(0,'bar',['janeiro','fervereiro','março'],[100,123,90],0,'Vendas trimestrais',['green','red','blue'])
 var g2 = new grafico(1,'bar',['sapato','calça','feichadura'],[10,20,30],0,'Artigos')
 var g3 = new grafico(2,'pizza',null,null,0,'Mes movimentado')
 
