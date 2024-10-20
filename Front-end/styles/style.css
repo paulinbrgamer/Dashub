@@ -26,9 +26,13 @@ input[type="button"]:hover{
     
 }
 .apagar{
-    display: none; 
+    visibility: hidden;
+    opacity: 0;
+    position: relative;
+    
 }
 .aparecer{
     display: flex;
     flex-direction: column;
+    visibility: visible;
 }
