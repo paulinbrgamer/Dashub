@@ -30,6 +30,7 @@ main{
     background-color: antiquewhite;
     background-color: #121212;
     padding: 5%;
+
 }
 aside{
     position: absolute;
@@ -165,4 +166,6 @@ h1{
     background-color: rgb(12, 12, 12);
     flex: 1;
     padding: 10px;
+    height: 80dvh;
+    overflow: scroll;
 }
