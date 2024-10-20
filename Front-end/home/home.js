@@ -250,6 +250,43 @@ function desenharGraficos(){
                         }
                       });
                 }
+                if(g.tipo == 'pizza'){
+                    var grafico = document.getElementById(`g${g.id}`)
+                    var ctx = grafico.getContext('2d')
+                    var myPieChart = new Chart(ctx, {
+                        type: 'pie',  // Especifica o tipo de gráfico: 'pie'
+                        data: {
+                          labels:dados.map(d=>d.nome),  // Rótulos para cada fatia
+                          datasets: [{
+                            label: g.nome,
+                            data: dados.map(d=>d.valor),  // Valores para cada fatia
+                            backgroundColor: dados.map(d=>d.cor),
+                            borderWidth: 1  // Largura das bordas das fatias
+                          }]
+                        },
+                        options: {
+                          responsive: true,  // Torna o gráfico responsivo
+                          plugins: {
+                            legend: {
+                              position: 'top',  // Posição da legenda
+                            },
+                            tooltip: {
+                              enabled: true , // Habilita tooltips ao passar o mouse
+                              callback:{
+                                label: function(context){
+                                    let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += context.raw; // Mostra o valor bruto da fatia
+                                return label;
+                                }
+                              }
+                            }
+                          }
+                        }
+                      });
+                }
             })
         }
     })
@@ -257,9 +294,10 @@ function desenharGraficos(){
 }
 var gp = new grafico(0,'bar',['janeiro','fervereiro','março'],[100,123,90],0,'Vendas trimestrais',['green','red','blue'])
 var g2 = new grafico(1,'bar',['janeiro','fervereiro','março'],[10,23,30],0,'compras trimestrais',['green','red','blue'])
-var g3 = new grafico(2,'pizza',null,null,0,'Mes movimentado')
+var g3 = new grafico(2,'pizza',['janeiro','fervereiro','março'],[10,23,30],0,'compras trimestrais',['green','red','blue'])
+var g4 = new grafico(3,'pizza',['janeiro','fervereiro','março'],[10,23,30],0,'compras trimestrais',['green','red','blue'])
 
-var db = new dashboard('teste1',1,[gp,g2,g3],0)
+var db = new dashboard('teste1',1,[gp,g2,g3,g4],0)
 var user = new usuario(0,'Paulo','123','paulogmail',[db])
 var as = {botaoAmostra:'',clicks:0}
 
