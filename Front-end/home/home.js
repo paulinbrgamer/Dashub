@@ -33,7 +33,8 @@ class usuario{
     }
     selecionarDash(idx){
         this.dashSelected = idx
-        
+        painelDash();
+        desenharGraficos();
     }
 }
 class dashboard{
@@ -45,12 +46,13 @@ class dashboard{
     }
 }
 class grafico{
-    constructor(id,tipo,elementos,dados,id_dash){
+    constructor(id,tipo,elementos,dados,id_dash,nome){
         this.id = id
         this.tipo = tipo
         this.elementos = elementos
         this.dados = dados
         this.id_dash = id_dash
+        this.nome = nome
     }
 }
 
@@ -95,19 +97,78 @@ function abrirUser(){
 function abrirDash(){
     var teladash =
     `<div id="menudashboard">
-    
     <div style="display: flex;flex-direction: column;flex: 1;overflow: scroll;">
         <h1 class="item">Dashboards</h1>
         <div id="container-Dashboards">
-
-
         </div>
-        
     </div>
 </div>`
     document.querySelector('#container-home').innerHTML = teladash
     drawnDash()
     abrirAside('dashs')
+}
+function painelDash(){
+    var telanovo = `            
+    <div style="margin-left:2px; overflow:hidden; display: flex;flex-direction: column;align-items: center;" >
+    <div style="display: flex;align-items: center;align-self: flex-start;">
+        <button onclick="backDash()"><img src="home/img/de-volta (1).png" alt="voltar"></button>
+        <p style="margin-left: 8px;margin-bottom: 4px;">voltar</p>
+    </div>
+    <h1 class="item">Gráficos</h1>
+    <div id="container-graficos">
+    </div>
+    <button style="font-weight: 400;font-size: 12pt;color:#ffffff;background-color: #0AC00A;padding: 8px;width: 160px;align-self: center;border-radius: 4px;margin-top: 15px;"> Adicionar Gráfico</button>
+</div>
+</div>`
+
+document.querySelector('#container-home').innerHTML = telanovo
+drawPainelGraphcs()
+
+}
+function backDash(){
+    var teladash =
+    `<div id="menudashboard">
+    <div style="display: flex;flex-direction: column;flex: 1;overflow: scroll;">
+        <h1 class="item">Dashboards</h1>
+        <div id="container-Dashboards">
+        </div>
+    </div>
+</div>`
+    document.querySelector('#container-home').innerHTML = teladash
+    drawnDash()
+}
+function drawPainelGraphcs(){
+    var telanovo= ''
+    user.dashboard.forEach(d=>{
+        if(d.id == user.dashSelected){
+            d.graficos.forEach(g=>{
+                if(g.tipo == 'line'){
+                    telanovo += `<div class="graph">
+                    <img src="home/img/icon-graph/grafico-de-linha.png" alt="grafico de barra">
+                    <p>${g.nome}</p>
+                    <button id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
+                </div>`
+                }
+                if(g.tipo == 'bar'){
+                    telanovo += `<div class="graph">
+                    <img src="home/img/icon-graph/grafico-de-barras.png" alt="grafico de barra">
+                    <p>${g.nome}</p>
+                    <button id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
+                </div>`
+                }
+                if(g.tipo == 'pizza'){
+                    telanovo += `<div class="graph">
+                    <img src="home/img/icon-graph/grafico-de-pizza.png" alt="grafico de barra">
+                    <p>${g.nome}</p>
+                    <button id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
+                </div>`
+                }
+                
+            })
+            document.querySelector('#container-graficos').innerHTML = telanovo
+        }
+    })
+
 }
 function abrirNovo(){
     var telanovo = `
@@ -142,7 +203,51 @@ function abrirAside(nome){
     }
 
 }
-var user = new usuario(0,'Paulo','123','paulogmail',[])
+function desenharGraficos(){
+    var canvas= ''
+    var container = document.getElementById('Dashboard')
+    user.dashboard.forEach(dash=>{
+        if (dash.id == user.dashSelected){
+            dash.graficos.forEach(g=>{
+                canvas+= `
+                <div style="background-color:#121212;padding: 10px;margin:10px; border-radius: 10px;flex-grow: 1;">
+                <canvas id="g${g.id}"></canvas>
+                </div>`
+            })
+            container.innerHTML = canvas
+            dash.graficos.forEach(g=>{
+                if(g.tipo == 'bar'){
+                    var grafico = document.getElementById(`g${g.id}`)
+                    var ctx = grafico.getContext('2d')
+                    var myBarChart = new Chart(ctx, {
+                        type: 'bar',  // Especifica o tipo de gráfico: 'bar'
+                        data: {
+                          labels: g.elementos, // Rótulos no eixo X
+                          datasets: [{
+                            label: g.nome,
+                            data: g.dados,  // Dados para cada mês
+                            borderWidth: 1 // Largura da borda das barras
+                          }]
+                        },
+                        options: {
+                          scales: {
+                            y: {
+                              beginAtZero: true  // Iniciar o eixo Y em zero
+                            }
+                          }
+                        }
+                      });
+                }
+            })
+        }
+    })
+    
+}
+var gp = new grafico(0,'bar',['janeiro','fervereiro','março'],[100,123],0,'Vendas trimestrais')
+var g2 = new grafico(1,'bar',['sapato','calça','feichadura'],[10,20,30],0,'Artigos')
+var g3 = new grafico(2,'pizza',null,null,0,'Mes movimentado')
+
+var db = new dashboard('teste1',1,[gp,g2,g3],0)
+var user = new usuario(0,'Paulo','123','paulogmail',[db])
 var as = {botaoAmostra:'',clicks:0}
 
-abrirAside('user')

@@ -24,13 +24,18 @@ body{
     grid-template-rows: 1fr;
 }
 main{
+    display: flex;
     grid-column: 3/4;
     grid-row: 1/2;
     background-color: antiquewhite;
     background-color: #121212;
+    padding: 5%;
 }
 aside{
+    position: absolute;
     width: 0px;
+    left: 60px;
+    height: 100dvh;
     display: flex;
     justify-content: center;
     grid-column: 2/3;
@@ -130,15 +135,17 @@ h1{
 }
 .abrir_dash{
     width: 300px;
+    height: 100dvh;
+    left: 60px;
     visibility: visible;
 }
 #container-graficos{
     margin-top: 10px;
-    height: 60vh;
+    height: 210px;
     padding: 10px;
     overflow: scroll;
     width: 70%;
-
+    
 }
 .graph{
     display: flex;align-items: center;cursor: pointer;justify-content: space-around;
@@ -149,4 +156,13 @@ h1{
     background-color: #121212;
     padding: 8px;
     border-radius: 10px;
+}
+#Dashboard{
+    display: flex;
+    flex-wrap: wrap;
+    align-items:baseline;
+    justify-content: left;
+    background-color: rgb(12, 12, 12);
+    flex: 1;
+    padding: 10px;
 }
