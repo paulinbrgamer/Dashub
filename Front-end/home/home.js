@@ -66,6 +66,32 @@ function drawnDash(){
     });
     document.getElementById('container-Dashboards').innerHTML = dashs
 }
+function abrirUser(){
+    var telanovo = 
+    `
+    <div style="margin-left:2px; overflow:hidden;display:flex;flex-direction:column;align-itens:center;" >
+    <h1 class="item">Usuario</h1>
+    <div style="display: flex; align-items: center; justify-content: space-between;margin-top: 10px;">
+        <h5 style="color:rgb(196, 193, 193);" for="name_dashboard">Nome: </h5>
+        <h5 style="color:#0AC00A;">Paulo francisco</h5>
+        
+    </div>
+    <div style="display: flex; align-items: center; justify-content: space-between;margin-top: 10px;">
+        <h5 style="color:rgb(196, 193, 193);" for="name_dashboard">Email: </h5>
+        <h5 style="color:#0AC00A;">Pauloferadosgames@gmail.com</h5>
+        
+    </div>
+    <div style="display: flex; align-items: center; justify-content: space-between;margin-top: 10px;">
+        <h5 style="color:rgb(196, 193, 193);" for="name_dashboard">Senha: </h5>
+        <h5 style="color:#0AC00A;">Paulofera</h5>
+        
+    </div>
+    <button style="background-color: transparent;color: red;font-weight: 800;margin-top:30px;">Sair</button>
+    </div
+    `
+    document.querySelector('#container-home').innerHTML = telanovo
+    abrirAside('user')
+}
 function abrirDash(){
     var teladash =
     `<div id="menudashboard">
@@ -85,12 +111,12 @@ function abrirDash(){
 }
 function abrirNovo(){
     var telanovo = `
-    <div style="margin-left:2px;" >
+    <div style="margin-left:2px; overflow:hidden;" >
         <h1 class="item">Criar Dashboard</h1>
         <h5 style="color:rgb(196, 193, 193);margin-top:20px;" for="name_dashboard">Nome </h5>
         <div style="display:flex; justify-content:center;margin-top:4px;">
         <input type="text" id="name_dashboard" placeholder="Digite o nome">
-        <button onclick="user.adicionarDashboard()" id="addDash"><img style="width: 16px;" src="/home/img/mais.png" alt="mais"></button>
+        <button onclick="user.adicionarDashboard()" id="addDash">Adicionar</button>
         </div>
     </div>`
     document.querySelector('#container-home').innerHTML = telanovo
@@ -118,3 +144,5 @@ function abrirAside(nome){
 }
 var user = new usuario(0,'Paulo','123','paulogmail',[])
 var as = {botaoAmostra:'',clicks:0}
+
+abrirAside('user')

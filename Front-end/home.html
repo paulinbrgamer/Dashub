@@ -8,17 +8,41 @@
     <title>DasHub</title>
 </head>
 <body>
-            <nav id="nav_opcoes">
-            <button id="userbtn" class="nav_btns"></button>
-            <button onclick="abrirDash()" id="dashboardsbtn" class="nav_btns"></button>
-            <button onclick="abrirNovo()" id="addbtn" class="nav_btns"></button>
-        </nav>
+    <nav id="nav_opcoes">
+        <button onclick="abrirUser()" id="userbtn" class="nav_btns"></button>
+        <button onclick="abrirDash()" id="dashboardsbtn" class="nav_btns"></button>
+        <button onclick="abrirNovo()" id="addbtn" class="nav_btns"></button>
+    </nav>
     <aside>
         <div id="container-home" class="aparecer">
+            <div style="margin-left:2px; overflow:hidden;" >
+                <div style="display: flex;align-items: center;">
+                    <button><img src="home/img/de-volta (1).png" alt="voltar"></button>
+                    <p style="margin-left: 8px;margin-bottom: 4px;">voltar</p>
+                </div>
+                <h1 class="item">Graficos</h1>
+                <div id="container-graficos">
+                    <div class="graph">
+                        <img src="home/img/icon-graph/grafico-de-barras.png" alt="grafico de barra">
+                        <p>Venda de carros</p>
+                        <button id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
+                    </div>
+                    <div class="graph">
+                        <img src="home/img/icon-graph/grafico-de-pizza.png" alt="grafico de barra">
+                        <p>Venda de carros</p>
+                        <button id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
+                    </div>
+                    <div class="graph">
+                        <img src="home/img/icon-graph/grafico-de-linha.png" alt="grafico de barra">
+                        <p>Venda de carros</p>
+                        <button id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
+                    </div>
+                </div>
+                </div>
+            </div>
         </div>
-        
-
     </aside>
+    
     <main>
         <div id="Dashboard"></div>
     </main>

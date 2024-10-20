@@ -60,7 +60,6 @@ h1{
 }
 #container-Dashboards{
     height: 60vh;
-    
     padding: 10px;
     overflow: scroll;
     
@@ -91,7 +90,7 @@ h1{
 }
 #addDash{
     
-    width: 19%;
+    padding: 4px;
     height: 30px;
     color: white;
     background-color: #0AC00A;
@@ -132,4 +131,22 @@ h1{
 .abrir_dash{
     width: 300px;
     visibility: visible;
+}
+#container-graficos{
+    margin-top: 10px;
+    height: 60vh;
+    padding: 10px;
+    overflow: scroll;
+    width: 70%;
+
+}
+.graph{
+    display: flex;align-items: center;cursor: pointer;justify-content: space-around;
+    margin-bottom: 20px;
+    font-size: 10pt;
+}
+.graph:hover{
+    background-color: #121212;
+    padding: 8px;
+    border-radius: 10px;
 }
