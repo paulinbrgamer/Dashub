@@ -81,10 +81,11 @@ function abrirDash(){
 </div>`
     document.querySelector('#container-home').innerHTML = teladash
     drawnDash()
+    abrirAside('dashs')
 }
 function abrirNovo(){
     var telanovo = `
-    <div >
+    <div style="margin-left:2px;" >
         <h1 class="item">Criar Dashboard</h1>
         <h5 style="color:rgb(196, 193, 193);margin-top:20px;" for="name_dashboard">Nome </h5>
         <div style="display:flex; justify-content:center;margin-top:4px;">
@@ -93,10 +94,27 @@ function abrirNovo(){
         </div>
     </div>`
     document.querySelector('#container-home').innerHTML = telanovo
+    abrirAside('add')
 }
-function trocar(e){
-    var element = document.getElementById(e)
-    element.classList.add('apagar')
-    element.classList.remove('aparecer')
+
+function abrirAside(nome){
+    var aside = document.querySelector('aside')
+    if (as.botaoAmostra== nome){
+        as.clicks++
+        if(as.clicks<3){
+            aside.classList.toggle('abrir_dash')
+            as.clicks=0
+            as.botaoAmostra=''
+            console.log(as)
+        }
+    }else {
+        as.clicks=0
+        as.clicks++
+        as.botaoAmostra = nome
+        aside.classList.add('abrir_dash')
+        console.log(as)
+    }
+
 }
 var user = new usuario(0,'Paulo','123','paulogmail',[])
+var as = {botaoAmostra:'',clicks:0}
