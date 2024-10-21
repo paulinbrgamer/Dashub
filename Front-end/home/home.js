@@ -287,17 +287,52 @@ function desenharGraficos(){
                         }
                       });
                 }
+                if(g.tipo == 'line'){
+                    var grafico = document.getElementById(`g${g.id}`)
+                    var ctx = grafico.getContext('2d')
+                    const myLineChart = new Chart(ctx, {
+                        type: 'line', // Tipo de gráfico: linha
+                        data: {
+                            labels:dados.map(d=>d.nome),
+                            datasets: [{
+                                label: g.nome,
+                                data:  dados.map(d=>d.valor),
+                                fill: false, // Se deve preencher a área abaixo da linha
+                                borderColor: 'rgba(75, 192, 192, 1)', // Cor da linha
+                                borderWidth: 2, // Espessura da linha
+                                pointBackgroundColor:dados.map(d=>d.cor) , // Cor dos pontos
+                                pointBorderColor: '#fff', // Cor da borda dos pontos
+                                pointRadius: 5 // Tamanho dos pontos
+                            }]
+                        },
+                        options: {
+                            responsive: true, // O gráfico é responsivo
+                            scales: {
+                                y: {
+                                    beginAtZero: true // O eixo Y começa em zero
+                                }
+                            },
+                            plugins: {
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            return `${context.dataset.label}: ${context.parsed.y}`; // Exibir label e valor
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }); 
+                }
             })
         }
     })
     
 }
 var gp = new grafico(0,'bar',['janeiro','fervereiro','março'],[100,123,90],0,'Vendas trimestrais',['green','red','blue'])
-var g2 = new grafico(1,'bar',['janeiro','fervereiro','março'],[10,23,30],0,'compras trimestrais',['green','red','blue'])
 var g3 = new grafico(2,'pizza',['janeiro','fervereiro','março'],[10,23,30],0,'compras trimestrais',['green','red','blue'])
-var g4 = new grafico(3,'pizza',['janeiro','fervereiro','março'],[10,23,30],0,'compras trimestrais',['green','red','blue'])
-
-var db = new dashboard('teste1',1,[gp,g2,g3,g4],0)
+var g4 = new grafico(3,'line',['março','abril','maio'],[50,60,20],0,'Maior receita',['green','gray','blue'])
+var db = new dashboard('teste1',1,[gp,g3,g4],0)
 var user = new usuario(0,'Paulo','123','paulogmail',[db])
 var as = {botaoAmostra:'',clicks:0}
 
