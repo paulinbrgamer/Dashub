@@ -6,7 +6,7 @@ class usuario{
         this.email = email
         this.dashboard = dashboard
         this.ndash = 0
-        this.dashSelected = 1
+        this.dashSelected = 0
     }
     adicionarDashboard(){
         var iName = document.getElementById('name_dashboard')
@@ -222,7 +222,15 @@ function abrirNovo(){
     document.querySelector('#container-home').innerHTML = telanovo
     abrirAside('add')
 }
-
+function defaltmain(){
+   var content = `
+            <div style="align-self: center;margin: auto;">
+                <h1 style="font-size: 28pt;">Seja bem vindo ao DashHub</h1>
+                <h4 style="font-size: 16pt;color: #0AC00A;">Crie um novo Dashboard</h4>
+            </div>
+    `
+    document.querySelector('#Dashboard').innerHTML = content
+}
 function abrirAside(nome){
     var aside = document.querySelector('aside')
     if (as.botaoAmostra== nome){
@@ -460,4 +468,5 @@ var g5 = new grafico(4,'doughnut',['Fiat','Corola','Onix'],[140,160,220],0,'Maio
 var db = new dashboard('teste1',1,[gp,g3,g4,g5,gp2,g6,g7],0)
 var user = new usuario(0,'Paulo','123','paulogmail',[db])
 var as = {botaoAmostra:'',clicks:0}
-desenharGraficos()
+defaltmain()
+
