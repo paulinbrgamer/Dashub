@@ -34,7 +34,7 @@ main{
 
 }
 aside{
-    position: absolute;
+    
     width: 0px;
     left: 60px;
     height: 100dvh;
@@ -173,7 +173,7 @@ h1{
     background-color: rgb(12, 12, 12);
     
     padding: 10px;
-    height: 80dvh;
+    height: 75dvh;
     overflow: scroll;
     border-radius: 10px;
 }
