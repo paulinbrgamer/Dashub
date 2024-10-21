@@ -274,6 +274,7 @@ function desenharGraficos(){
                             label: g.nome,
                             data:dados.map(d=>d.valor),
                             backgroundColor:dados.map(d=>d.cor),  // Dados para cada mês
+                            maxBarThickness:40,
                             borderWidth: 1 // Largura da borda das barras
                           }]
                         },
