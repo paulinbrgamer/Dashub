@@ -149,7 +149,7 @@ h1{
     
 }
 .graph{
-    display: flex;align-items: center;cursor: pointer;justify-content: space-around;
+    display: flex;align-items: center;cursor: pointer;justify-content: space-between;
     margin-bottom: 20px;
     font-size: 10pt;
 }

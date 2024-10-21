@@ -32,9 +32,15 @@ class usuario{
         drawnDash()
     }
     selecionarDash(idx){
-        this.dashSelected = idx
-        painelDash();
-        desenharGraficos();
+        if (this.dashSelected == idx){
+            painelDash();
+        }
+        else{
+            this.dashSelected = idx
+            painelDash();
+            desenharGraficos();  
+        }
+        
     }
 }
 class dashboard{
@@ -170,7 +176,13 @@ function drawPainelGraphcs(){
                     <button id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
                 </div>`
                 }
-                
+                if(g.tipo == 'doughnut'){
+                    telanovo += `<div class="graph">
+                    <img src="home/img/icon-graph/grafico-de-rosca.png" alt="grafico de barra">
+                    <p>${g.nome}</p>
+                    <button id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
+                </div>`
+                }
             })
             document.querySelector('#container-graficos').innerHTML = telanovo
         }
@@ -287,7 +299,6 @@ function desenharGraficos(){
                           }]
                         },
                         options: {
-                          responsive: true,  // Torna o gráfico responsivo
                           plugins: {
                             legend: {
                               position: 'top',  // Posição da legenda
@@ -319,7 +330,8 @@ function desenharGraficos(){
                             datasets: [{
                                 label: g.nome,
                                 data:  dados.map(d=>d.valor),
-                                fill: false, // Se deve preencher a área abaixo da linha
+                                fill: true, // Se deve preencher a área abaixo da linha
+                                backgroundColor: 'red',
                                 borderColor: 'rgba(75, 192, 192, 1)', // Cor da linha
                                 borderWidth: 2, // Espessura da linha
                                 pointBackgroundColor:dados.map(d=>d.cor) , // Cor dos pontos
@@ -338,7 +350,7 @@ function desenharGraficos(){
                                         }
                                     },
                                     grid: {
-                                        
+                                        color:'black',
                                         lineWidth: 2, // Espessura das linhas de grade do eixo X
                                     }
                                 },
@@ -351,7 +363,7 @@ function desenharGraficos(){
                                         }
                                     },
                                     grid: {
-                                        
+                                        color:'black',
                                         lineWidth: 2, // Espessura das linhas de grade do eixo X
                                     }
                                 }
@@ -368,15 +380,43 @@ function desenharGraficos(){
                         }
                     }); 
                 }
+                if(g.tipo == 'doughnut'){
+                    var grafico = document.getElementById(`g${g.id}`)
+                    var ctx = grafico.getContext('2d')
+                    const donnut = new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: dados.map(d=>d.nome),
+                            datasets: [{
+                                label: g.nome,
+                                data: dados.map(d=>d.valor),
+                                backgroundColor:dados.map(d=>d.cor) ,
+                                hoverOffset: 4
+                            }]
+                        },
+                        options: {
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                title: {
+                                    display: true,
+                                    text: g.nome
+                                }
+                            }
+                        }
+                    });
+                }
             })
         }
     })
     
 }
-var gp = new grafico(0,'bar',['janeiro','fervereiro','março'],[100,123,90],0,'Vendas trimestrais',['green','red','blue'])
+var gp = new grafico(0,'bar',['janeiro','fervereiro','março'],[100,123,90],0,'Vendas trimestrais',['#fff','red','blue'])
 var g3 = new grafico(2,'pizza',['janeiro','fervereiro','março'],[10,23,30],0,'compras trimestrais',['green','red','blue'])
 var g4 = new grafico(3,'line',['março','abril','maio'],[50,60,20],0,'Maior receita',['green','gray','blue'])
-var db = new dashboard('teste1',1,[gp,g3,g4],0)
+var g5 = new grafico(4,'doughnut',['Fiat','Corola','Onix'],[140,160,220],0,'Maior Venda',['red','orange','blue'])
+var db = new dashboard('teste1',1,[gp,g3,g4,g5],0)
 var user = new usuario(0,'Paulo','123','paulogmail',[db])
 var as = {botaoAmostra:'',clicks:0}
 
