@@ -73,7 +73,7 @@ function drawnDash(){
     var dashs = ''
     user.dashboard.forEach(d => {
         dashs += `
-        <div id = "${d.id}" class="dashboard" onclick = "user.selecionarDash(${d.id})">
+        <div id = "${d.id}" class="graph" onclick = "user.selecionarDash(${d.id})">
         <h3 style="margin-right:15px;">${d.nome}</h3>
         <button onclick="user.removerDashboard(event,${d.id})" id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
         </div>
