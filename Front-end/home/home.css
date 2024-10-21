@@ -25,6 +25,7 @@ body{
 }
 main{
     display: flex;
+    flex-direction: column;
     grid-column: 3/4;
     grid-row: 1/2;
     background-color: antiquewhite;
@@ -170,7 +171,7 @@ h1{
     align-items:stretch;
     justify-content:flex-start;
     background-color: rgb(12, 12, 12);
-    flex: 1;
+    
     padding: 10px;
     height: 80dvh;
     overflow: scroll;

@@ -221,11 +221,15 @@ function abrirAside(nome){
 
 }
 function desenharGraficos(){
+    var d_title = document.getElementById('titled')
+    
     var canvas= ''
     var container = document.getElementById('Dashboard')
     user.dashboard.forEach(dash=>{
         if (dash.id == user.dashSelected){
+            d_title.innerText =dash.nome
             dash.graficos.forEach(g=>{
+                
                 canvas+= `
                 <div class="container-g">
                 <canvas id="g${g.id}"></canvas>
@@ -420,6 +424,7 @@ function desenharGraficos(){
                     });
                 }
             })
+            
         }
     })
     
