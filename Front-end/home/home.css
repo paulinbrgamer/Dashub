@@ -168,4 +168,5 @@ h1{
     padding: 10px;
     height: 80dvh;
     overflow: scroll;
+    border-radius: 10px;
 }

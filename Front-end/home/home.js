@@ -243,8 +243,30 @@ function desenharGraficos(){
                         },
                         options: {
                           scales: {
+                            x: {
+                                ticks: {
+                                    color: '#fff', // Cor do texto das etiquetas do eixo X
+                                    font: {
+                                        size: 14 // Tamanho da fonte das etiquetas do eixo X
+                                    }
+                                },
+                                grid: {
+                                    color: 'gray', // Cor das linhas de grade do eixo X
+                                    lineWidth: 1, // Espessura das linhas de grade do eixo X
+                                }
+                            },
                             y: {
-                              beginAtZero: true  // Iniciar o eixo Y em zero
+                              beginAtZero: true,
+                              ticks: {
+                                color: '#fff', // Cor do texto das etiquetas do eixo Y
+                                font: {
+                                    size: 14 // Tamanho da fonte das etiquetas do eixo Y
+                                }
+                            },
+                            grid: {
+                                color: 'gray', // Cor das linhas de grade do eixo Y
+                                lineWidth: 1 // Espessura das linhas de grade do eixo Y
+                            } // Iniciar o eixo Y em zero
                             }
                           }
                         }
@@ -261,7 +283,7 @@ function desenharGraficos(){
                             label: g.nome,
                             data: dados.map(d=>d.valor),  // Valores para cada fatia
                             backgroundColor: dados.map(d=>d.cor),
-                            borderWidth: 1  // Largura das bordas das fatias
+                            borderWidth: 2  // Largura das bordas das fatias
                           }]
                         },
                         options: {
@@ -308,8 +330,30 @@ function desenharGraficos(){
                         options: {
                             responsive: true, // O gráfico é responsivo
                             scales: {
+                                x: {
+                                    ticks: {
+                                        color: '#fff', // Cor do texto das etiquetas do eixo X
+                                        font: {
+                                            size: 14 // Tamanho da fonte das etiquetas do eixo X
+                                        }
+                                    },
+                                    grid: {
+                                        
+                                        lineWidth: 2, // Espessura das linhas de grade do eixo X
+                                    }
+                                },
                                 y: {
-                                    beginAtZero: true // O eixo Y começa em zero
+                                    beginAtZero: true // O eixo Y começa em zero,
+                                    ,ticks: {
+                                        color: '#fff', // Cor do texto das etiquetas do eixo X
+                                        font: {
+                                            size: 14 // Tamanho da fonte das etiquetas do eixo X
+                                        }
+                                    },
+                                    grid: {
+                                        
+                                        lineWidth: 2, // Espessura das linhas de grade do eixo X
+                                    }
                                 }
                             },
                             plugins: {
