@@ -85,6 +85,10 @@ function abrirUser(){
     var telanovo = 
     `
     <div style="margin-left:2px; overflow:hidden;display:flex;flex-direction:column;align-itens:center;" >
+    <div style="display: flex;align-items: center;align-self: flex-start;">
+        <button onclick="abrirAside('user')"><img src="home/img/de-volta (1).png" alt="voltar"></button>
+        <p style="margin-left: 8px;margin-bottom: 4px;">voltar</p>
+        </div>
     <h1 class="item">Usuario</h1>
     <div style="display: flex; align-items: center; justify-content: space-between;margin-top: 10px;">
         <h5 style="color:rgb(196, 193, 193);" for="name_dashboard">Nome: </h5>
@@ -110,7 +114,12 @@ function abrirUser(){
 function abrirDash(){
     var teladash =
     `<div id="menudashboard">
+    
     <div style="display: flex;flex-direction: column;flex: 1;overflow: scroll;">
+    <div style="display: flex;align-items: center;align-self: flex-start;">
+        <button onclick="abrirAside('dashs')"><img src="home/img/de-volta (1).png" alt="voltar"></button>
+        <p style="margin-left: 8px;margin-bottom: 4px;">voltar</p>
+    </div>
         <h1 class="item">Dashboards</h1>
         <div id="container-Dashboards">
         </div>
@@ -141,13 +150,19 @@ drawPainelGraphcs()
 function backDash(){
     var teladash =
     `<div id="menudashboard">
+    
     <div style="display: flex;flex-direction: column;flex: 1;overflow: scroll;">
+    <div style="display: flex;align-items: center;align-self: flex-start;">
+        <button onclick="abrirAside('dashs')"><img src="home/img/de-volta (1).png" alt="voltar"></button>
+        <p style="margin-left: 8px;margin-bottom: 4px;">voltar</p>
+    </div>
         <h1 class="item">Dashboards</h1>
         <div id="container-Dashboards">
         </div>
     </div>
 </div>`
     document.querySelector('#container-home').innerHTML = teladash
+    
     drawnDash()
 }
 function drawPainelGraphcs(){
@@ -191,7 +206,12 @@ function drawPainelGraphcs(){
 }
 function abrirNovo(){
     var telanovo = `
+    
     <div style="margin-left:2px; overflow:hidden;" >
+    <div style="display: flex;align-items: center;align-self: flex-start;">
+    <button onclick="abrirAside('add')"><img src="home/img/de-volta (1).png" alt="voltar"></button>
+    <p style="margin-left: 8px;margin-bottom: 4px;">voltar</p>
+    </div>
         <h1 class="item">Criar Dashboard</h1>
         <h5 style="color:rgb(196, 193, 193);margin-top:20px;" for="name_dashboard">Nome </h5>
         <div style="display:flex; justify-content:center;margin-top:4px;">
