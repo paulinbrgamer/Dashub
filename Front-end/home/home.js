@@ -300,10 +300,15 @@ function desenharGraficos(){
                           }]
                         },
                         options: {
-                            
+                          responsive: true, // faz o gráfico ser responsivo
+                        maintainAspectRatio: true,
                           plugins: {
                             legend: {
-                              position: 'top',  // Posição da legenda
+                                position: 'left',
+                            },
+                            title: {
+                                display: true,
+                                text: g.nome
                             },
                             tooltip: {
                               enabled: true , // Habilita tooltips ao passar o mouse
@@ -341,7 +346,8 @@ function desenharGraficos(){
                                 pointRadius: 5 // Tamanho dos pontos
                             }]
                         },
-                        options: {
+                        options: {responsive: true, // faz o gráfico ser responsivo
+                        maintainAspectRatio: true,
                             
                             scales: {
                                 x: {
@@ -371,6 +377,7 @@ function desenharGraficos(){
                                 }
                             },
                             plugins: {
+                                
                                 tooltip: {
                                     callbacks: {
                                         label: function(context) {
@@ -397,11 +404,12 @@ function desenharGraficos(){
                             }]
                         },
                         options: {
-                            responsive: true,  // Mantém o gráfico responsivo
-                maintainAspectRatio: true, 
+                          responsive: true, // faz o gráfico ser responsivo
+                        maintainAspectRatio: true,  responsive: true,  // Mantém o gráfico responsivo
+                            
                             plugins: {
                                 legend: {
-                                    position: 'top',
+                                    position: 'left',
                                 },
                                 title: {
                                     display: true,
