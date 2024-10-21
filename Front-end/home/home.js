@@ -6,7 +6,7 @@ class usuario{
         this.email = email
         this.dashboard = dashboard
         this.ndash = 0
-        this.dashSelected = null
+        this.dashSelected = 1
     }
     adicionarDashboard(){
         var iName = document.getElementById('name_dashboard')
@@ -74,7 +74,7 @@ function drawnDash(){
     user.dashboard.forEach(d => {
         dashs += `
         <div id = "${d.id}" class="dashboard" onclick = "user.selecionarDash(${d.id})">
-        <h3>${d.nome}</h3>
+        <h3 style="margin-right:15px;">${d.nome}</h3>
         <button onclick="user.removerDashboard(event,${d.id})" id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
         </div>
         `
@@ -227,7 +227,7 @@ function desenharGraficos(){
         if (dash.id == user.dashSelected){
             dash.graficos.forEach(g=>{
                 canvas+= `
-                <div style="background-color:#121212;padding: 10px;margin:10px; border-radius: 10px;flex-grow: 1;display:flex;align-items:center;justify-content:center;">
+                <div class="container-g">
                 <canvas id="g${g.id}"></canvas>
                 </div>`
             })
@@ -254,6 +254,7 @@ function desenharGraficos(){
                           }]
                         },
                         options: {
+                        
                           scales: {
                             x: {
                                 ticks: {
@@ -299,6 +300,7 @@ function desenharGraficos(){
                           }]
                         },
                         options: {
+                            
                           plugins: {
                             legend: {
                               position: 'top',  // Posição da legenda
@@ -331,16 +333,16 @@ function desenharGraficos(){
                                 label: g.nome,
                                 data:  dados.map(d=>d.valor),
                                 fill: true, // Se deve preencher a área abaixo da linha
-                                backgroundColor: 'red',
+                                backgroundColor: g.cores,
                                 borderColor: 'rgba(75, 192, 192, 1)', // Cor da linha
                                 borderWidth: 2, // Espessura da linha
-                                pointBackgroundColor:dados.map(d=>d.cor) , // Cor dos pontos
+                                pointBackgroundColor:'rgba(75, 192, 192, 1)' , // Cor dos pontos
                                 pointBorderColor: '#fff', // Cor da borda dos pontos
                                 pointRadius: 5 // Tamanho dos pontos
                             }]
                         },
                         options: {
-                            responsive: true, // O gráfico é responsivo
+                            
                             scales: {
                                 x: {
                                     ticks: {
@@ -395,6 +397,8 @@ function desenharGraficos(){
                             }]
                         },
                         options: {
+                            responsive: true,  // Mantém o gráfico responsivo
+                maintainAspectRatio: true, 
                             plugins: {
                                 legend: {
                                     position: 'top',
@@ -413,10 +417,13 @@ function desenharGraficos(){
     
 }
 var gp = new grafico(0,'bar',['janeiro','fervereiro','março'],[100,123,90],0,'Vendas trimestrais',['#fff','red','blue'])
+var gp2 = new grafico(5,'bar',['janeiro','fervereiro','março'],[100,123,90],0,'Vendas trimestrais',['#fff','red','blue'])
+var g6 = new grafico(6,'pizza',['janeiro','fervereiro','março'],[10,23,30],0,'compras trimestrais',['green','red','blue'])
 var g3 = new grafico(2,'pizza',['janeiro','fervereiro','março'],[10,23,30],0,'compras trimestrais',['green','red','blue'])
-var g4 = new grafico(3,'line',['março','abril','maio'],[50,60,20],0,'Maior receita',['green','gray','blue'])
+var g4 = new grafico(3,'line',['março','abril','maio'],[50,60,20],0,'Maior receita','blue')
+var g7 = new grafico(7,'line',['março','abril','maio'],[50,60,20],0,'Maior receita','blue')
 var g5 = new grafico(4,'doughnut',['Fiat','Corola','Onix'],[140,160,220],0,'Maior Venda',['red','orange','blue'])
-var db = new dashboard('teste1',1,[gp,g3,g4,g5],0)
+var db = new dashboard('teste1',1,[gp,g3,g4,g5,gp2,g6,g7],0)
 var user = new usuario(0,'Paulo','123','paulogmail',[db])
 var as = {botaoAmostra:'',clicks:0}
-
+desenharGraficos()
