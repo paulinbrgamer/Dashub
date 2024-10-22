@@ -61,6 +61,7 @@ class usuario{
                 d.graficos.forEach((g,idx)=>{
                     if(g.id == id){
                         d.graficos.splice(idx,1)
+                        desenharGraficos()
                         drawPainelGraphcs()
                     }
                 })
