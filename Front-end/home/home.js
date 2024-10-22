@@ -25,11 +25,17 @@ class usuario{
         event.stopPropagation();
         this.dashboard.forEach((element,idx) => {
             if (element.id == id){
+                if (element.id == user.dashSelected){
+                    document.getElementById('titled').innerHTML = ''
+                
+                    defaltmain()
+                }
                 this.dashboard.splice(idx,1)
             }
         });
         this.ndash--
         drawnDash()
+        
     }
     selecionarDash(idx){
         if (this.dashSelected == idx){
@@ -40,6 +46,12 @@ class usuario{
             painelDash();
             desenharGraficos();  
         }
+        var d_title = document.getElementById('titled')
+        this.dashboard.forEach(d=>{
+            if (d.id == this.dashSelected){
+                d_title.innerHTML = d.nome
+            }
+        })
         
     }
 }
@@ -249,13 +261,10 @@ function abrirAside(nome){
 
 }
 function desenharGraficos(){
-    var d_title = document.getElementById('titled')
-    
     var canvas= ''
     var container = document.getElementById('Dashboard')
     user.dashboard.forEach(dash=>{
         if (dash.id == user.dashSelected){
-            d_title.innerText =dash.nome
             dash.graficos.forEach(g=>{
                 
                 canvas+= `
