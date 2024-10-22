@@ -6,7 +6,7 @@ class usuario{
         this.email = email
         this.dashboard = dashboard
         this.ndash = 0
-        this.dashSelected = 0
+        this.dashSelected = 1
     }
     adicionarDashboard(){
         var iName = document.getElementById('name_dashboard')
@@ -67,6 +67,9 @@ class usuario{
                 })
             }
         })
+    }
+    novoGrafico(){
+        console.log("click")
     }
 }
 class dashboard{
@@ -150,13 +153,14 @@ function abrirDash(){
         <div id="container-Dashboards">
         </div>
     </div>
-</div>`
+     </div>`
     document.querySelector('#container-home').innerHTML = teladash
     drawnDash()
     abrirAside('dashs')
 }
 function painelDash(){
-    var telanovo = `            
+    var telanovo = 
+    `            
     <div style="margin-left:2px; overflow:hidden; display: flex;flex-direction: column;align-items: center;" >
     <div style="display: flex;align-items: center;align-self: flex-start;">
         <button onclick="backDash()"><img src="home/img/de-volta (1).png" alt="voltar"></button>
@@ -165,9 +169,10 @@ function painelDash(){
     <h1 class="item">Gráficos</h1>
     <div id="container-graficos">
     </div>
-    <button style="font-weight: 400;font-size: 12pt;color:#ffffff;background-color: #0AC00A;padding: 8px;width: 160px;align-self: center;border-radius: 4px;margin-top: 15px;"> Adicionar Gráfico</button>
-</div>
-</div>`
+    <button onclick="user.novoGrafico()" style="font-weight: 400;font-size: 12pt;color:#ffffff;background-color: #0AC00A;padding: 8px;width: 160px;align-self: center;border-radius: 4px;margin-top: 15px;"> Adicionar Gráfico</button>
+    </div>
+    </div>
+    `
 
 document.querySelector('#container-home').innerHTML = telanovo
 drawPainelGraphcs()
@@ -240,8 +245,8 @@ function abrirNovo(){
     </div>
         <h1 class="item">Criar Dashboard</h1>
         <h5 style="color:rgb(196, 193, 193);margin-top:20px;" for="name_dashboard">Nome </h5>
-        <div style="display:flex; justify-content:center;margin-top:4px;">
-        <input type="text" id="name_dashboard" placeholder="Digite o nome">
+        <div style="display:flex;flex-direction: column; justify-content:center;margin-top:4px;">
+        <input type="text" id="name_dashboard" class="named" placeholder="Digite o nome" style="margin-bottom:10px;">
         <button onclick="user.adicionarDashboard()" id="addDash">Adicionar</button>
         </div>
     </div>`
@@ -481,6 +486,7 @@ function desenharGraficos(){
     })
     
 }
+
 var gp = new grafico(0,'bar',['janeiro','fervereiro','março'],[160,123,90],0,'Vendas 0',['#fff','red','blue'])
 var gp2 = new grafico(5,'bar',['janeiro','fervereiro','março'],[100,123,90],0,'Vendas trimestrais',['#fff','red','blue'])
 var g6 = new grafico(6,'pizza',['janeiro','fervereiro','março'],[10,23,30],0,'compras trimestrais',['green','red','blue'])
@@ -491,5 +497,5 @@ var g5 = new grafico(4,'doughnut',['Fiat','Corola','Onix'],[140,160,220],0,'Maio
 var db = new dashboard('teste1',1,[gp,g3,g4,g5,gp2,g6,g7],0)
 var user = new usuario(0,'Paulo','123','paulogmail',[db])
 var as = {botaoAmostra:'',clicks:0}
-defaltmain()
-
+desenharGraficos()
+abrirAside('dashs')
