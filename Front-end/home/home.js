@@ -55,7 +55,17 @@ class usuario{
         
     }
     removeGraph(id){
-        console.log(id)
+        
+        this.dashboard.forEach(d=>{
+            if (d.id == this.dashSelected){
+                d.graficos.forEach((g,idx)=>{
+                    if(g.id == id){
+                        d.graficos.splice(idx,1)
+                        drawPainelGraphcs()
+                    }
+                })
+            }
+        })
     }
 }
 class dashboard{
@@ -470,7 +480,7 @@ function desenharGraficos(){
     })
     
 }
-var gp = new grafico(0,'bar',['janeiro','fervereiro','março'],[100,123,90],0,'Vendas 0',['#fff','red','blue'])
+var gp = new grafico(0,'bar',['janeiro','fervereiro','março'],[160,123,90],0,'Vendas 0',['#fff','red','blue'])
 var gp2 = new grafico(5,'bar',['janeiro','fervereiro','março'],[100,123,90],0,'Vendas trimestrais',['#fff','red','blue'])
 var g6 = new grafico(6,'pizza',['janeiro','fervereiro','março'],[10,23,30],0,'compras trimestrais',['green','red','blue'])
 var g3 = new grafico(2,'pizza',['janeiro','fervereiro','março'],[10,23,30],0,'compras trimestrais',['green','red','blue'])
