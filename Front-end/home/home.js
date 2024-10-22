@@ -69,7 +69,7 @@ class usuario{
         })
     }
     novoGrafico(){
-        console.log("click")
+        
     }
 }
 class dashboard{
@@ -169,7 +169,7 @@ function painelDash(){
     <h1 class="item">Gráficos</h1>
     <div id="container-graficos">
     </div>
-    <button onclick="user.novoGrafico()" style="font-weight: 400;font-size: 12pt;color:#ffffff;background-color: #0AC00A;padding: 8px;width: 160px;align-self: center;border-radius: 4px;margin-top: 15px;"> Adicionar Gráfico</button>
+    <button onclick="criarGraficoPainel()" style="font-weight: 400;font-size: 12pt;color:#ffffff;background-color: #0AC00A;padding: 8px;width: 160px;align-self: center;border-radius: 4px;margin-top: 15px;"> Adicionar Gráfico</button>
     </div>
     </div>
     `
@@ -486,7 +486,55 @@ function desenharGraficos(){
     })
     
 }
-
+function drawndados(){
+    var n = document.getElementById('elementosG').value
+    var container = document.getElementById('container-data')
+    var d = ''
+    for (var i = 0;i<n;i++){
+        d += `<div class="data">
+                    <p>${i+1}</p>
+                    <input class="inputs_data"  type="text" placeholder="Nome">
+                    <input class="inputs_data"  type="number" placeholder="Valor">
+                    <input style="width: 10%;background-color: transparent;"  type="color" name="" id="">
+                </div>`
+    }
+    container.innerHTML = d
+    
+}
+function criarGraficoPainel(){
+    var telanovo = 
+    `
+    <div style="margin-left:2px; overflow:hidden;display:flex;flex-direction:column;align-itens:center;" >
+    <div style="display: flex;align-items: center;align-self: flex-start;">
+        <button onclick="painelDash()"><img src="home/img/de-volta (1).png" alt="voltar"></button>
+        <p style="margin-left: 8px;margin-bottom: 4px;">voltar</p>
+        </div>
+        <h1 class="item">Novo Gráfico</h1>
+            <label for="nomeG">Nome:</label>
+            <input class="named" type="text"id="nomeG">
+            <label for="tipoG">Tipo:</label>
+            <select name="tipos" id="tipoG">
+                <option value="bar">Barra</option>
+                <option value="pizza">Pizza</option>
+                <option value="line">Linha</option>
+                <option value="doughnut">Rosca</option>
+            </select>
+            <label for="elementosG" style="margin-top: 20px;">Elementos:</label>
+            <div>
+            <input class="named" style="width: 100px;" type="number" id="elementosG" min="1">
+            <button onclick="drawndados()" style="background-color: #0AC00A;padding: 10px;border-radius: 6px;margin-left:10px;">Adicionar</button>
+            </div>
+            <h1 class="item">Dados</h1>
+            <div id="container-data">
+                
+                
+            </div>
+            <button style="background-color: #0AC00A;width: 60%;padding: 10px;border-radius: 6px;align-self: center;">Adicionar</button>
+       
+    `
+    document.querySelector('#container-home').innerHTML = telanovo
+    
+}
 var gp = new grafico(0,'bar',['janeiro','fervereiro','março'],[160,123,90],0,'Vendas 0',['#fff','red','blue'])
 var gp2 = new grafico(5,'bar',['janeiro','fervereiro','março'],[100,123,90],0,'Vendas trimestrais',['#fff','red','blue'])
 var g6 = new grafico(6,'pizza',['janeiro','fervereiro','março'],[10,23,30],0,'compras trimestrais',['green','red','blue'])
@@ -498,4 +546,4 @@ var db = new dashboard('teste1',1,[gp,g3,g4,g5,gp2,g6,g7],0)
 var user = new usuario(0,'Paulo','123','paulogmail',[db])
 var as = {botaoAmostra:'',clicks:0}
 desenharGraficos()
-abrirAside('dashs')
+
