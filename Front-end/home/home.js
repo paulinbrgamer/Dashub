@@ -54,6 +54,9 @@ class usuario{
         })
         
     }
+    removeGraph(id){
+        console.log(id)
+    }
 }
 class dashboard{
     constructor(nome,id,graficos,id_user){
@@ -186,28 +189,28 @@ function drawPainelGraphcs(){
                     telanovo += `<div class="graph">
                     <img src="home/img/icon-graph/grafico-de-linha.png" alt="grafico de barra">
                     <p>${g.nome}</p>
-                    <button id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
+                    <button onclick="user.removeGraph(${g.id})" id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
                 </div>`
                 }
                 if(g.tipo == 'bar'){
                     telanovo += `<div class="graph">
                     <img src="home/img/icon-graph/grafico-de-barras.png" alt="grafico de barra">
                     <p>${g.nome}</p>
-                    <button id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
+                    <button onclick="user.removeGraph(${g.id})" id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
                 </div>`
                 }
                 if(g.tipo == 'pizza'){
                     telanovo += `<div class="graph">
                     <img src="home/img/icon-graph/grafico-de-pizza.png" alt="grafico de barra">
                     <p>${g.nome}</p>
-                    <button id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
+                    <button onclick="user.removeGraph(${g.id})" id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
                 </div>`
                 }
                 if(g.tipo == 'doughnut'){
                     telanovo += `<div class="graph">
                     <img src="home/img/icon-graph/grafico-de-rosca.png" alt="grafico de barra">
                     <p>${g.nome}</p>
-                    <button id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
+                    <button onclick="user.removeGraph(${g.id})" id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
                 </div>`
                 }
             })
@@ -467,7 +470,7 @@ function desenharGraficos(){
     })
     
 }
-var gp = new grafico(0,'bar',['janeiro','fervereiro','março'],[100,123,90],0,'Vendas trimestrais',['#fff','red','blue'])
+var gp = new grafico(0,'bar',['janeiro','fervereiro','março'],[100,123,90],0,'Vendas 0',['#fff','red','blue'])
 var gp2 = new grafico(5,'bar',['janeiro','fervereiro','março'],[100,123,90],0,'Vendas trimestrais',['#fff','red','blue'])
 var g6 = new grafico(6,'pizza',['janeiro','fervereiro','março'],[10,23,30],0,'compras trimestrais',['green','red','blue'])
 var g3 = new grafico(2,'pizza',['janeiro','fervereiro','março'],[10,23,30],0,'compras trimestrais',['green','red','blue'])
