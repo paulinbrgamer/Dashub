@@ -98,38 +98,46 @@ class usuario{
         var preenchido = true
         //quantas elementos vao ser necessários verificar
         var vezes = document.getElementById('elementosG').value
-        //laço para verificar
+        //laço para verificar se os campos dos dados não estão prenchhidos preenchidos
         for (var i =0;i<vezes;i++){
             if (!document.getElementById(`nad${i+1}`).value || !document.getElementById(`nud${i+1}`).value || !document.getElementById(`cor${i+1}`).value ){
                 preenchido = false
             }
         }
+        //verifica se preenchido for falso, se sim mostra um alerta
         if(!preenchido){
             window.alert("Preencha tudo")
         }
         else{
+            //obter os valores de nome e tipo e dasboardselecionado
             var id_dash = this.dashSelected;
             var nome = document.getElementById('nomeG').value
             var tipo = document.getElementById('tipoG').value
             var elementos =[]
+            //obter todos os nomes dos elementos do grafico e colocar no array elementos
             for (var i =0;i<vezes;i++){
                 var c = document.getElementById(`nad${i+1}`).value
                 elementos.push(c) 
             }
             var dados =[]
+            //obter todos os nomes dos elementos do grafico e colocar no array dados
             for (var i =0;i<vezes;i++){
                 var c = document.getElementById(`nud${i+1}`).value
                 dados.push(c) 
             }
+            //obter todos os nomes dos elementos do grafico e colocar no array cores
             var cores=[]
             for (var i =0;i<vezes;i++){
                 var c = document.getElementById(`cor${i+1}`).value
                 cores.push(c) 
             }
+
+            //obter o filtro
             var ordem = document.getElementById('ordemG').value
+            //crair novo grafico a partir dos dados que foram fornecidos
             var graficoNovo= new grafico(this.ngraf,tipo,elementos,dados,id_dash,nome,cores,ordem);
             this.ngraf++
-            
+            //adicionar no dashboard o novo grafico
             this.dashboard.forEach(element => {
                 if (element.id == this.dashSelected){
                     element.graficos.push(graficoNovo)
@@ -137,12 +145,13 @@ class usuario{
                 }
                 
             });
-            
+            //desenhar os graficos e o painel
             painelDash()
             desenharGraficos()
         }
     }
 }
+
 class dashboard{
     constructor(nome,id,graficos,id_user){
         this.id = id
@@ -170,6 +179,7 @@ class dado{
         this.cor = cor
     }
 }
+//desenar cada dashboard listado do usuario em um container dentro do painel de dashboard
 function drawnDash(){
     var dashs = ''
     user.dashboard.forEach(d => {
@@ -182,6 +192,7 @@ function drawnDash(){
     });
     document.getElementById('container-Dashboards').innerHTML = dashs
 }
+//abrir painel de usuario
 function abrirUser(){
     var telanovo = 
     `
@@ -212,6 +223,7 @@ function abrirUser(){
     document.querySelector('#container-home').innerHTML = telanovo
     abrirAside('user')
 }
+//colocar a tela de dashboard no aside
 function abrirDash(){
     var teladash =
     `<div id="menudashboard">
@@ -230,6 +242,7 @@ function abrirDash(){
     drawnDash()
     abrirAside('dashs')
 }
+//tela exibida após selecionar um dashboard,
 function painelDash(){
     var telanovo = 
     `            
@@ -250,6 +263,7 @@ document.querySelector('#container-home').innerHTML = telanovo
 drawPainelGraphcs()
 
 }
+//voltar para a tela anterior depois de selecionar um dashboard
 function backDash(){
     var teladash =
     `<div id="menudashboard">
@@ -268,6 +282,7 @@ function backDash(){
     
     drawnDash()
 }
+//desenhar o container de graficos listados dentro do dashboard selecionado
 function drawPainelGraphcs(){
     var telanovo= ''
     user.dashboard.forEach(d=>{
@@ -307,6 +322,7 @@ function drawPainelGraphcs(){
     })
 
 }
+//dsenar painel de adicionar dashboard
 function abrirNovo(){
     var telanovo = `
     
@@ -325,6 +341,7 @@ function abrirNovo(){
     document.querySelector('#container-home').innerHTML = telanovo
     abrirAside('add')
 }
+//desenhar a tela inicial no main
 function defaltmain(){
    var content = `
             <div style="align-self: center;margin: auto;">
@@ -341,16 +358,21 @@ function defaltmain(){
     `
     document.querySelector('#Dashboard').innerHTML = content
 }
+//abrir a barra lateral ou fechar
 function abrirAside(nome){
+    //obtem o nome do conteudo atual da barra
     var aside = document.querySelector('aside')
+    //se a tela que foi apertada já está sendo exibida ele incrementa os clicks
     if (as.botaoAmostra== nome){
         as.clicks++
+        //se o click for menor que 3 ele abre ou fecha dashboard
         if(as.clicks<3){
             aside.classList.toggle('abrir_dash')
             as.clicks=0
             as.botaoAmostra=''
         }
     }else {
+        //se a tela selecinada for outra ele zera o contador de clicks e muda o nome
         as.clicks=0
         as.clicks++
         as.botaoAmostra = nome
@@ -358,11 +380,14 @@ function abrirAside(nome){
     }
 
 }
+//desenha os graficos no container de graficos 
 function desenharGraficos(){
     var canvas= ''
     var container = document.getElementById('Dashboard')
+    //percorrer todo o dashboard e encontrar o que está selecionado
     user.dashboard.forEach(dash=>{
         if (dash.id == user.dashSelected){
+            //criar um canvas para cada grafico, o id do grafico é atribuido ao canva
             dash.graficos.forEach(g=>{
                 
                 canvas+= `
@@ -370,24 +395,27 @@ function desenharGraficos(){
                 <canvas id="g${g.id}"></canvas>
                 </div>`
             })
+            //adicionando ao html todo os canvas
             container.innerHTML = canvas
+            //percorrer novamente todos os graficos no objeto usuario
             dash.graficos.forEach(g=>{
-
+                //criando array de dados
                 var dados = []
+                //percorrer cada grafico e obter o array de elementos, dados e cores e id
                 g.elementos.forEach((e,id)=>{
-                    
+                    //instancioando o objeto data que vai receber e estruturar todos os dados
                     var data = new dado(e,g.dados[id],g.cores[id])
                     dados.push(data)
                 })
                 console.log(g);
-                
+                //obter a ordem escolhida no grafico e ordenar o valor
                 if(g.ordem == 'maior'){
                     dados.sort((a, b) => b.valor - a.valor);
                 }
                 if(g.ordem == 'menor'){
                     dados.sort((a, b) => a.valor - b.valor);
                 }
-                
+                //adicionar grafico do tipo barra
                 if(g.tipo == 'bar'){
                     var grafico = document.getElementById(`g${g.id}`)
                     var ctx = grafico.getContext('2d')
@@ -435,6 +463,7 @@ function desenharGraficos(){
                         }
                       });
                 }
+                //adicionar grafico do tipo pizza
                 if(g.tipo == 'pizza'){
                     var grafico = document.getElementById(`g${g.id}`)
                     var ctx = grafico.getContext('2d')
@@ -477,6 +506,7 @@ function desenharGraficos(){
                         }
                       });
                 }
+                //adicionar grafico do tipo Linha
                 if(g.tipo == 'line'){
                     var grafico = document.getElementById(`g${g.id}`)
                     var ctx = grafico.getContext('2d')
@@ -539,6 +569,7 @@ function desenharGraficos(){
                         }
                     }); 
                 }
+                //adicionar grafico do tipo Rosquinha
                 if(g.tipo == 'doughnut'){
                     var grafico = document.getElementById(`g${g.id}`)
                     var ctx = grafico.getContext('2d')
@@ -575,11 +606,15 @@ function desenharGraficos(){
     })
     
 }
+//funão para desenhar os campos referentes a nome valor e cor dos dados a serem atribuidos no novo grafico criado
 function drawndados(){
+
+    //VERIFICA SE O VALOR NOME E´VALIDO
     if (!document.getElementById('nomeG').value){
         window.alert("Preencha corretamente os campos")
     }
     else{
+        //gera todos os campos a depender do numero de lementos colocados
         var n = document.getElementById('elementosG').value
         var container = document.getElementById('container-data')
         var d = ''
@@ -597,6 +632,7 @@ function drawndados(){
     
     
 }
+//desenar no aside a tela de adicionar o grafico
 function criarGraficoPainel(){
     var telanovo = 
     `
@@ -640,7 +676,7 @@ function criarGraficoPainel(){
     document.querySelector('#container-home').innerHTML = telanovo
     
 }
-
+//instanciaão do usuario 
 var user = new usuario(0,'Paulo','123','paulo@gmail.com',[])
 //objeto que controla o comportamento da barra lateral
 var as = {botaoAmostra:'',clicks:0}
