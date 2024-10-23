@@ -6,7 +6,7 @@ class usuario{
         this.senha = senha
         this.email = email
         this.dashboard = dashboard
-        this.ndash = 1
+        this.ndash = 0
         this.ngraf = 0
         this.dashSelected = null
     }
@@ -638,13 +638,8 @@ function criarGraficoPainel(){
     document.querySelector('#container-home').innerHTML = telanovo
     
 }
-var g1 = new grafico(0,'bar',['dawd','awdwad'],[1,3],0,'teste',['red','green'],'nada')
-var g2 = new grafico(1,'bar',['dawd','awdwad'],[1,3],0,'teste',['red','green'],'nada')
-var g3 = new grafico(2,'bar',['dawd','awdwad'],[1,3],0,'teste',['red','green'],'nada')
-var g4 = new grafico(3,'bar',['dawd','awdwad'],[1,3],0,'teste',['red','green'],'nada')
-var d = new dashboard('teste',0,[g1,g2,g3,g4],0)
-//inicialização de um usuario
-var user = new usuario(0,'Paulo','123','paulo@gmail.com',[d])
+
+var user = new usuario(0,'Paulo','123','paulo@gmail.com',[])
 //objeto que controla o comportamento da barra lateral
 var as = {botaoAmostra:'',clicks:0}
 
