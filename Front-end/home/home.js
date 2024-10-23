@@ -1,3 +1,4 @@
+//classe usuário que contem seus atributos e metodos
 class usuario{
     constructor(id,nome,senha,email,dashboard){
         this.id = id
@@ -5,16 +6,23 @@ class usuario{
         this.senha = senha
         this.email = email
         this.dashboard = dashboard
-        this.ndash = 1
+        this.ndash = 0
+        this.ngraf = 0
         this.dashSelected = 0
     }
+    //metodo que adiciona um dashboard no atributo dashboar do usuário
     adicionarDashboard(){
+        //obtem o nome do novo dashboard 
         var iName = document.getElementById('name_dashboard')
+        //verifica se o nome é valido
         if(typeof iName.value === 'string' && iName.value.trim().length > 0){
-            
+            //cria o objeto  dashboard 
             var novoDash = new dashboard(iName.value,this.ndash,[],this.id)
+            //adiciona no objeto user 
             this.dashboard.push(novoDash)
+            //seleciona esse novo dashboard
             this.selecionarDash(this.ndash)
+            //incrementa o numero de dashboards
             this.ndash++
             
             iName.value = ''
@@ -25,15 +33,20 @@ class usuario{
             window.alert("Digite um nome valido") 
         }
     }
+    //remover um dashboard
     removerDashboard(event,id){
         event.stopPropagation();
+        //percorrer todos os dashboards do usuario
         this.dashboard.forEach((element,idx) => {
+            //encontrar o dashboard selecionado para deletar pelo ID do mesmo
             if (element.id == id){
+                //verifica se o que está sendo deletado está em exibição, se sim apaga a exibição dele
                 if (element.id == user.dashSelected){
                     document.getElementById('titled').innerHTML = ''
                 
                     defaltmain()
                 }
+                //remove o dashboard do atributo dashboard do objeto user
                 this.dashboard.splice(idx,1)
             }
         });
@@ -41,7 +54,9 @@ class usuario{
         drawnDash()
         
     }
+    //metodo que seleciona um dashboard por id
     selecionarDash(idx){
+        //verifica se o dashboard selecionado já esta em exibição, se não estiver chama a função para desenhar os graficos do dashboard
         if (this.dashSelected == idx){
             painelDash();
         }
@@ -50,6 +65,7 @@ class usuario{
             painelDash();
             desenharGraficos();  
         }
+        //adiciona o titulo do dashboard
         var d_title = document.getElementById('titled')
         this.dashboard.forEach(d=>{
             if (d.id == this.dashSelected){
@@ -58,11 +74,13 @@ class usuario{
         })
         
     }
+    //remover grafico
     removeGraph(id){
-        
+        //encontrar o dashboard que está o grafico que foi selecionado para deletar
         this.dashboard.forEach(d=>{
             if (d.id == this.dashSelected){
                 d.graficos.forEach((g,idx)=>{
+                    //encontrar o grafico e onde ele fica no array de graficos
                     if(g.id == id){
                         d.graficos.splice(idx,1)
                         desenharGraficos()
@@ -103,7 +121,8 @@ class usuario{
                 cores.push(c) 
             }
             var ordem = document.getElementById('ordemG').value
-            var graficoNovo= new grafico(null,tipo,elementos,dados,id_dash,nome,cores,ordem);
+            var graficoNovo= new grafico(this.ngraf,tipo,elementos,dados,id_dash,nome,cores,ordem);
+            this.ngraf++
             
             this.dashboard.forEach(element => {
                 if (element.id == this.dashSelected){
@@ -168,17 +187,17 @@ function abrirUser(){
     <h1 class="item">Usuario</h1>
     <div style="display: flex; align-items: center; justify-content: space-between;margin-top: 10px;">
         <h5 style="color:rgb(196, 193, 193);" for="name_dashboard">Nome: </h5>
-        <h5 style="color:#0AC00A;">Paulo francisco</h5>
+        <h5 style="color:#0AC00A;">${user.nome}</h5>
         
     </div>
     <div style="display: flex; align-items: center; justify-content: space-between;margin-top: 10px;">
         <h5 style="color:rgb(196, 193, 193);" for="name_dashboard">Email: </h5>
-        <h5 style="color:#0AC00A;">Pauloferadosgames@gmail.com</h5>
+        <h5 style="color:#0AC00A;">${user.email}</h5>
         
     </div>
     <div style="display: flex; align-items: center; justify-content: space-between;margin-top: 10px;">
         <h5 style="color:rgb(196, 193, 193);" for="name_dashboard">Senha: </h5>
-        <h5 style="color:#0AC00A;">Paulofera</h5>
+        <h5 style="color:#0AC00A;">${user.senha}</h5>
         
     </div>
     <button style="background-color: transparent;color: red;font-weight: 400;font-size:18pt;margin-top:30px;">Sair</button>
@@ -476,8 +495,8 @@ function desenharGraficos(){
                                         }
                                     },
                                     grid: {
-                                        color:'black',
-                                        lineWidth: 2, // Espessura das linhas de grade do eixo X
+                                        color:'white',
+                                        lineWidth: 1, // Espessura das linhas de grade do eixo X
                                     }
                                 },
                                 y: {
@@ -489,8 +508,8 @@ function desenharGraficos(){
                                         }
                                     },
                                     grid: {
-                                        color:'black',
-                                        lineWidth: 2, // Espessura das linhas de grade do eixo X
+                                        color:'white',
+                                        lineWidth: 1, // Espessura das linhas de grade do eixo X
                                     }
                                 }
                             },
@@ -606,8 +625,8 @@ function criarGraficoPainel(){
     document.querySelector('#container-home').innerHTML = telanovo
     
 }
-
-var db = new dashboard('teste1',0,[],0)
-var user = new usuario(0,'Paulo','123','paulogmail',[db])
+//inicialização de um usuario
+var user = new usuario(0,'Paulo','123','paulo@gmail.com',[])
+//objeto que controla o comportamento da barra lateral
 var as = {botaoAmostra:'',clicks:0}
 
