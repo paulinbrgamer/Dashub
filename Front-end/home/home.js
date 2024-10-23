@@ -6,9 +6,9 @@ class usuario{
         this.senha = senha
         this.email = email
         this.dashboard = dashboard
-        this.ndash = 0
+        this.ndash = 1
         this.ngraf = 0
-        this.dashSelected = 0
+        this.dashSelected = null
     }
     //metodo que adiciona um dashboard no atributo dashboar do usuário
     adicionarDashboard(){
@@ -82,7 +82,9 @@ class usuario{
                 d.graficos.forEach((g,idx)=>{
                     //encontrar o grafico e onde ele fica no array de graficos
                     if(g.id == id){
+                        //remover o grafico do array de graficos do dashboard selecionado
                         d.graficos.splice(idx,1)
+                        //redesenhar os graficos na tela e o painel de graficos
                         desenharGraficos()
                         drawPainelGraphcs()
                     }
@@ -90,9 +92,13 @@ class usuario{
             }
         })
     }
+    //adicionar novo grafico
     novoGrafico(){
+        //variavel que verifica se todos os campos foram preenchidos dos dados do grafico
         var preenchido = true
+        //quantas elementos vao ser necessários verificar
         var vezes = document.getElementById('elementosG').value
+        //laço para verificar
         for (var i =0;i<vezes;i++){
             if (!document.getElementById(`nad${i+1}`).value || !document.getElementById(`nud${i+1}`).value || !document.getElementById(`cor${i+1}`).value ){
                 preenchido = false
@@ -322,7 +328,14 @@ function abrirNovo(){
 function defaltmain(){
    var content = `
             <div style="align-self: center;margin: auto;">
-                <h1 style="font-size: 28pt;">Seja bem vindo ao DashHub</h1>
+            <div style="display:flex;align-items:center;justify-content:center;">
+                <h1 style="font-size: 28pt;margin-right:5px">Seja bem vindo ao Dash</h1>
+                <div style="background-color:yellow; width:60px;border-radius:4px;">
+                <h1 style="color:black;font-weight:800;text-align:center;padding:5px;font-size:20pt;">Hub</h1>
+                </div>
+            </div>
+                
+                
                 <h4 style="font-size: 16pt;color: #0AC00A;">Crie um novo Dashboard</h4>
             </div>
     `
@@ -625,8 +638,14 @@ function criarGraficoPainel(){
     document.querySelector('#container-home').innerHTML = telanovo
     
 }
+var g1 = new grafico(0,'bar',['dawd','awdwad'],[1,3],0,'teste',['red','green'],'nada')
+var g2 = new grafico(1,'bar',['dawd','awdwad'],[1,3],0,'teste',['red','green'],'nada')
+var g3 = new grafico(2,'bar',['dawd','awdwad'],[1,3],0,'teste',['red','green'],'nada')
+var g4 = new grafico(3,'bar',['dawd','awdwad'],[1,3],0,'teste',['red','green'],'nada')
+var d = new dashboard('teste',0,[g1,g2,g3,g4],0)
 //inicialização de um usuario
-var user = new usuario(0,'Paulo','123','paulo@gmail.com',[])
+var user = new usuario(0,'Paulo','123','paulo@gmail.com',[d])
 //objeto que controla o comportamento da barra lateral
 var as = {botaoAmostra:'',clicks:0}
 
+defaltmain()
