@@ -1,5 +1,9 @@
+*{
+    outline: none;
+}
+
 .container{
-    background-color: white;
+    background-color: #121212;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -7,10 +11,11 @@
     box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.5);
     border-radius: 4px;
     padding: 40px;
-    width: 400px;
+    width: 350px;
 }
 input{
-    
+    background-color: #121212;
+    color: white;
     outline: none;
     text-indent: 5px;
     font-size: 14pt;
@@ -24,7 +29,7 @@ input[type="button"]{
     cursor: pointer;
     color: white;
     margin-top: 20px;
-    background-color: rgb(5, 63, 255);
+    background-color: #0AC00A;
     border: none;
     padding: 10px;
 }
@@ -42,4 +47,6 @@ body{
     justify-content: center;
     align-items: center;
     height: 97vh;
+    color: white;
+    background-color:#030303;
 }
