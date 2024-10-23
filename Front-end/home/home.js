@@ -5,16 +5,20 @@ class usuario{
         this.senha = senha
         this.email = email
         this.dashboard = dashboard
-        this.ndash = 0
+        this.ndash = 1
         this.dashSelected = 0
     }
     adicionarDashboard(){
         var iName = document.getElementById('name_dashboard')
         if(typeof iName.value === 'string' && iName.value.trim().length > 0){
+            
             var novoDash = new dashboard(iName.value,this.ndash,[],this.id)
-            this.ndash++
             this.dashboard.push(novoDash)
+            this.selecionarDash(this.ndash)
+            this.ndash++
+            
             iName.value = ''
+            
             
         }
         else{
@@ -590,7 +594,7 @@ var g3 = new grafico(2,'pizza',['janeiro','fervereiro','março'],[10,23,30],0,'c
 var g4 = new grafico(3,'line',['março','abril','maio'],[50,60,20],0,'Maior receita','blue')
 var g7 = new grafico(7,'line',['março','abril','maio'],[50,60,20],0,'Maior receita','blue')
 var g5 = new grafico(4,'doughnut',['Fiat','Corola','Onix'],[140,160,220],0,'Maior Venda',['red','orange','blue'])
-var db = new dashboard('teste1',1,[gp,g3,g4,g5,gp2,g6,g7],0)
+var db = new dashboard('teste1',0,[gp,g3,g4,g5,gp2,g6,g7],0)
 var user = new usuario(0,'Paulo','123','paulogmail',[db])
 var as = {botaoAmostra:'',clicks:0}
 
