@@ -102,7 +102,8 @@ class usuario{
                 var c = document.getElementById(`cor${i+1}`).value
                 cores.push(c) 
             }
-            var graficoNovo= new grafico(null,tipo,elementos,dados,id_dash,nome,cores);
+            var ordem = document.getElementById('ordemG').value
+            var graficoNovo= new grafico(null,tipo,elementos,dados,id_dash,nome,cores,ordem);
             
             this.dashboard.forEach(element => {
                 if (element.id == this.dashSelected){
@@ -126,7 +127,7 @@ class dashboard{
     }
 }
 class grafico{
-    constructor(id,tipo,elementos,dados,id_dash,nome,cores){
+    constructor(id,tipo,elementos,dados,id_dash,nome,cores,ordem){
         this.id = id
         this.tipo = tipo
         this.elementos = elementos
@@ -134,6 +135,7 @@ class grafico{
         this.id_dash = id_dash
         this.nome = nome
         this.cores = cores
+        this.ordem = ordem
     }
 }
 class dado{
@@ -338,12 +340,22 @@ function desenharGraficos(){
             })
             container.innerHTML = canvas
             dash.graficos.forEach(g=>{
+
                 var dados = []
                 g.elementos.forEach((e,id)=>{
+                    
                     var data = new dado(e,g.dados[id],g.cores[id])
                     dados.push(data)
                 })
-                dados.sort((a, b) => b.valor - a.valor);
+                console.log(g);
+                
+                if(g.ordem == 'maior'){
+                    dados.sort((a, b) => b.valor - a.valor);
+                }
+                if(g.ordem == 'menor'){
+                    dados.sort((a, b) => a.valor - b.valor);
+                }
+                
                 if(g.tipo == 'bar'){
                     var grafico = document.getElementById(`g${g.id}`)
                     var ctx = grafico.getContext('2d')
@@ -557,44 +569,45 @@ function criarGraficoPainel(){
     var telanovo = 
     `
     <div style="margin-left:2px; overflow:hidden;display:flex;flex-direction:column;align-itens:center;" >
-    <div style="display: flex;align-items: center;align-self: flex-start;">
-        <button onclick="painelDash()"><img src="home/img/de-volta (1).png" alt="voltar"></button>
-        <p style="margin-left: 8px;margin-bottom: 4px;">voltar</p>
-        </div>
-        <h1 class="item">Novo Gráfico</h1>
-            <label for="nomeG">Nome:</label>
-            <input class="named" type="text"id="nomeG">
-            <label for="tipoG">Tipo:</label>
-            <select name="tipos" id="tipoG">
-                <option value="bar">Barra</option>
-                <option value="pizza">Pizza</option>
-                <option value="line">Linha</option>
-                <option value="doughnut">Rosca</option>
-            </select>
-            <label for="elementosG" style="margin-top: 20px;">Elementos:</label>
-            <div>
-            <input class="named" style="width: 100px;" type="number" id="elementosG" min="1">
-            <button onclick="drawndados()" style="background-color: #0AC00A;padding: 10px;border-radius: 6px;margin-left:10px;">Adicionar</button>
+                <div style="display: flex;align-items: center;align-self: flex-start;">
+                    <button onclick="painelDash()"><img src="home/img/de-volta (1).png" alt="voltar"></button>
+                    <p style="margin-left: 8px;margin-bottom: 4px;">voltar</p>
+                    </div>
+                    <h1 class="item">Novo Gráfico</h1>
+                        <label for="nomeG">Nome:</label>
+                        <input class="named" type="text"id="nomeG">
+                        <div style="display:flex;align-items: center;justify-content: space-between;margin-top: 10px;">
+                        <label for="tipoG">Tipo:</label>
+                        <label for="elementosG" >Elementos:</label>
+                        </div>
+                        <div style="display: flex;justify-content: space-between;">
+                            <select name="tipos" id="tipoG">
+                                <option value="bar">Barra</option>
+                                <option value="pizza">Pizza</option>
+                                <option value="line">Linha</option>
+                                <option value="doughnut">Rosca</option>
+                            </select>
+                            <input class="named" style="width: 100px;text-align:center;" type="number" id="elementosG" min="1">
+                        </div>
+                        <label for="elementosG">Ordem:</label>
+                        <select name="ordem" id="ordemG">
+                            <option value="nada">Nenhuma</option>
+                            <option value="maior">Decrescente</option>
+                            <option value="menor">Crescente</option>
+                        </select>
+                        <button onclick="drawndados()" style="background-color: #0AC00A;padding: 10px;border-radius: 6px;margin-top:15px;">Adicionar</button>
             </div>
+                        
             <h1 class="item">Dados</h1>
-            <div id="container-data">
-                
-                
+            <div id="container-data">            
             </div>
             <button onclick="user.novoGrafico()" id="criar-g" style="display:none;background-color: #0AC00A;width: 60%;padding: 10px;border-radius: 6px;align-self: center;">Criar Gráfico</button>
-       
     `
     document.querySelector('#container-home').innerHTML = telanovo
     
 }
-var gp = new grafico(0,'bar',['janeiro','fervereiro','março'],[160,123,90],0,'Vendas 0',['#fff','red','blue'])
-var gp2 = new grafico(5,'bar',['janeiro','fervereiro','março'],[100,123,90],0,'Vendas trimestrais',['#fff','red','blue'])
-var g6 = new grafico(6,'pizza',['janeiro','fervereiro','março'],[10,23,30],0,'compras trimestrais',['green','red','blue'])
-var g3 = new grafico(2,'pizza',['janeiro','fervereiro','março'],[10,23,30],0,'compras trimestrais',['green','red','blue'])
-var g4 = new grafico(3,'line',['março','abril','maio'],[50,60,20],0,'Maior receita','blue')
-var g7 = new grafico(7,'line',['março','abril','maio'],[50,60,20],0,'Maior receita','blue')
-var g5 = new grafico(4,'doughnut',['Fiat','Corola','Onix'],[140,160,220],0,'Maior Venda',['red','orange','blue'])
-var db = new dashboard('teste1',0,[gp,g3,g4,g5,gp2,g6,g7],0)
+
+var db = new dashboard('teste1',0,[],0)
 var user = new usuario(0,'Paulo','123','paulogmail',[db])
 var as = {botaoAmostra:'',clicks:0}
 
