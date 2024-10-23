@@ -6,7 +6,7 @@ class usuario{
         this.email = email
         this.dashboard = dashboard
         this.ndash = 0
-        this.dashSelected = 1
+        this.dashSelected = 0
     }
     adicionarDashboard(){
         var iName = document.getElementById('name_dashboard')
@@ -69,7 +69,48 @@ class usuario{
         })
     }
     novoGrafico(){
-        
+        var preenchido = true
+        var vezes = document.getElementById('elementosG').value
+        for (var i =0;i<vezes;i++){
+            if (!document.getElementById(`nad${i+1}`).value || !document.getElementById(`nud${i+1}`).value || !document.getElementById(`cor${i+1}`).value ){
+                preenchido = false
+            }
+        }
+        if(!preenchido){
+            window.alert("Preencha tudo")
+        }
+        else{
+            var id_dash = this.dashSelected;
+            var nome = document.getElementById('nomeG').value
+            var tipo = document.getElementById('tipoG').value
+            var elementos =[]
+            for (var i =0;i<vezes;i++){
+                var c = document.getElementById(`nad${i+1}`).value
+                elementos.push(c) 
+            }
+            var dados =[]
+            for (var i =0;i<vezes;i++){
+                var c = document.getElementById(`nud${i+1}`).value
+                dados.push(c) 
+            }
+            var cores=[]
+            for (var i =0;i<vezes;i++){
+                var c = document.getElementById(`cor${i+1}`).value
+                cores.push(c) 
+            }
+            var graficoNovo= new grafico(null,tipo,elementos,dados,id_dash,nome,cores);
+            
+            this.dashboard.forEach(element => {
+                if (element.id == this.dashSelected){
+                    element.graficos.push(graficoNovo)
+                    console.log(elementos.graficos)
+                }
+                
+            });
+            
+            painelDash()
+            desenharGraficos()
+        }
     }
 }
 class dashboard{
@@ -487,18 +528,25 @@ function desenharGraficos(){
     
 }
 function drawndados(){
-    var n = document.getElementById('elementosG').value
-    var container = document.getElementById('container-data')
-    var d = ''
-    for (var i = 0;i<n;i++){
-        d += `<div class="data">
-                    <p>${i+1}</p>
-                    <input class="inputs_data"  type="text" placeholder="Nome">
-                    <input class="inputs_data"  type="number" placeholder="Valor">
-                    <input style="width: 10%;background-color: transparent;"  type="color" name="" id="">
-                </div>`
+    if (!document.getElementById('nomeG').value){
+        window.alert("Preencha corretamente os campos")
     }
-    container.innerHTML = d
+    else{
+        var n = document.getElementById('elementosG').value
+        var container = document.getElementById('container-data')
+        var d = ''
+        for (var i = 0;i<n;i++){
+            d += `<div class="data">
+                        <p>${i+1}</p>
+                        <input id="nad${i+1}" class="inputs_data"  type="text" placeholder="Nome">
+                        <input id="nud${i+1}"  class="inputs_data"  type="number" placeholder="Valor">
+                        <input id="cor${i+1}"  style="width: 10%;background-color: transparent;"  type="color" name="" id="">
+                    </div>`
+        }
+        container.innerHTML = d
+        document.getElementById('criar-g').style.display = 'block'
+    }
+    
     
 }
 function criarGraficoPainel(){
@@ -529,7 +577,7 @@ function criarGraficoPainel(){
                 
                 
             </div>
-            <button style="background-color: #0AC00A;width: 60%;padding: 10px;border-radius: 6px;align-self: center;">Adicionar</button>
+            <button onclick="user.novoGrafico()" id="criar-g" style="display:none;background-color: #0AC00A;width: 60%;padding: 10px;border-radius: 6px;align-self: center;">Criar Gráfico</button>
        
     `
     document.querySelector('#container-home').innerHTML = telanovo
@@ -545,5 +593,4 @@ var g5 = new grafico(4,'doughnut',['Fiat','Corola','Onix'],[140,160,220],0,'Maio
 var db = new dashboard('teste1',1,[gp,g3,g4,g5,gp2,g6,g7],0)
 var user = new usuario(0,'Paulo','123','paulogmail',[db])
 var as = {botaoAmostra:'',clicks:0}
-desenharGraficos()
 
