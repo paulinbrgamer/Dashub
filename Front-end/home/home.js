@@ -635,6 +635,8 @@ function criarGraficoPainel(){
             </div>
             <button onclick="user.novoGrafico()" id="criar-g" style="display:none;background-color: #0AC00A;width: 60%;padding: 10px;border-radius: 6px;align-self: center;">Criar Gráfico</button>
     `
+    as.botaoAmostra="dashs"
+    as.clicks--
     document.querySelector('#container-home').innerHTML = telanovo
     
 }
