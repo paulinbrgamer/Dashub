@@ -218,7 +218,7 @@ function abrirUser(){
         <h5 style="color:#0AC00A;">${user.senha}</h5>
         
     </div>
-    <button style="background-color: transparent;color: red;font-weight: 400;font-size:18pt;margin-top:30px;">Sair</button>
+    <button style="background-color: red;color: white;font-weight: 400;font-size:14pt;width:60%;margin:auto;margin-top:30px;border-radius:3px;">Sair</button>
     </div
     `
     document.querySelector('#container-home').innerHTML = telanovo
