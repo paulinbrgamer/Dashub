@@ -81,11 +81,13 @@ h1{
 #container-Dashboards{
     height: 60vh;
     padding: 10px;
+    margin-top: 10px;
     overflow: scroll;
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+    background-color:#121212;
+    border-radius: 6px;
 }
 .dashboard{
     
@@ -160,19 +162,24 @@ h1{
 }
 #container-graficos{
     margin-top: 10px;
-    height: 210px;
+    height: 270px;
     padding: 10px;
     overflow: scroll;
-    width: 70%;
-    
+    width: 80%;
+    background-color:#121212;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .graph{
-    display: flex;align-items: center;cursor: pointer;justify-content: space-between;
+    width: 80%;
+    display: flex;align-items: center;cursor: pointer;justify-content: space-evenly;
     margin-bottom: 20px;
     font-size: 10pt;
 }
 .graph:hover{
-    background-color: #121212;
+    background-color: #222222;
     padding: 8px;
     border-radius: 10px;
 }

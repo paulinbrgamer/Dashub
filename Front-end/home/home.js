@@ -332,10 +332,10 @@ function abrirNovo(){
     <button onclick="abrirAside('add')"><img src="home/img/de-volta (1).png" alt="voltar"></button>
     <p style="margin-left: 8px;margin-bottom: 4px;">voltar</p>
     </div>
-        <h1 style="margin-bottom: 5px;" class="item">Criar Dashboard</h1>
+        <h1 style="margin-bottom: 15px;" class="item">Novo dashboard</h1>
         <label  for="name_dashboard" >Nome:</label>
         <div style="display:flex;flex-direction: column; justify-content:center;margin-top:5px;">
-        <input type="text" id="name_dashboard" class="named" placeholder="Digite o nome" style="margin-bottom:10px;">
+        <input type="text" id="name_dashboard" class="named" placeholder="Digite o nome" style="margin-bottom:20px;">
         <button onclick="user.adicionarDashboard()" id="addDash">Adicionar</button>
         </div>
     </div>`
