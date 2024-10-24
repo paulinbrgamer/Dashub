@@ -390,11 +390,19 @@ function desenharGraficos(){
         if (dash.id == user.dashSelected){
             //criar um canvas para cada grafico, o id do grafico é atribuido ao canva
             dash.graficos.forEach(g=>{
-                
-                canvas+= `
+                if (g.tipo == 'line'|| g.tipo == 'bar'){
+                    canvas+= `
+                    <div class="container-g">
+                    <canvas id="g${g.id}"></canvas>
+                    </div>`
+                }
+                else{
+                    canvas+= `
                 <div class="container-g">
                 <canvas id="g${g.id}"></canvas>
                 </div>`
+                }
+                
             })
             //adicionando ao html todo os canvas
             container.innerHTML = canvas
@@ -461,6 +469,7 @@ function desenharGraficos(){
                             } // Iniciar o eixo Y em zero
                             }
                           }
+                          
                         }
                       });
                 }
@@ -488,7 +497,11 @@ function desenharGraficos(){
                             },
                             title: {
                                 display: true,
-                                text: g.nome
+                                text: g.nome,
+                                    color:'white',
+                                    font: {
+                                        size: 16 // Define o tamanho da fonte do título
+                                    }
                             },
                             tooltip: {
                               enabled: true , // Habilita tooltips ao passar o mouse
@@ -595,7 +608,11 @@ function desenharGraficos(){
                                 },
                                 title: {
                                     display: true,
-                                    text: g.nome
+                                    text: g.nome,
+                                    color:'white',
+                                    font: {
+                                        size: 16// Define o tamanho da fonte do título
+                                    }
                                 }
                             }
                         }
