@@ -45,7 +45,8 @@ label{
 body{
     background-color: rgba(2, 4, 8, 0.986);
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
+    flex-direction: column;
     align-items: center;
     height: 97vh;
     color: white;
