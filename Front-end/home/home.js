@@ -75,7 +75,8 @@ class usuario{
         
     }
     //remover grafico
-    removeGraph(id){
+    removeGraph(event,id){
+        event.stopPropagation();
         //encontrar o dashboard que está o grafico que foi selecionado para deletar
         this.dashboard.forEach(d=>{
             if (d.id == this.dashSelected){
@@ -290,31 +291,31 @@ function drawPainelGraphcs(){
         if(d.id == user.dashSelected){
             d.graficos.forEach(g=>{
                 if(g.tipo == 'line'){
-                    telanovo += `<div class="graph">
+                    telanovo += `<div id="pg${g.id}" onclick="abrirGrafico(${g.id})" class="graph">
                     <img src="home/img/icon-graph/grafico-de-linha.png" alt="grafico de barra">
                     <p>${g.nome}</p>
-                    <button onclick="user.removeGraph(${g.id})" id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
+                    <button onclick="user.removeGraph(event,${g.id})" id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
                 </div>`
                 }
                 if(g.tipo == 'bar'){
-                    telanovo += `<div class="graph">
+                    telanovo += `<div class="graph" id="pg${g.id}" onclick="abrirGrafico(${g.id})">
                     <img src="home/img/icon-graph/grafico-de-barras.png" alt="grafico de barra">
                     <p>${g.nome}</p>
-                    <button onclick="user.removeGraph(${g.id})" id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
+                    <button onclick="user.removeGraph(event,${g.id})" id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
                 </div>`
                 }
                 if(g.tipo == 'pizza'){
-                    telanovo += `<div class="graph">
+                    telanovo += `<div class="graph" id="pg${g.id}" onclick="abrirGrafico(${g.id})">
                     <img src="home/img/icon-graph/grafico-de-pizza.png" alt="grafico de barra">
                     <p>${g.nome}</p>
-                    <button onclick="user.removeGraph(${g.id})" id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
+                    <button onclick="user.removeGraph(event,${g.id})" id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
                 </div>`
                 }
                 if(g.tipo == 'doughnut'){
-                    telanovo += `<div class="graph">
+                    telanovo += `<div class="graph" id="pg${g.id}" onclick="abrirGrafico(${g.id})">
                     <img src="home/img/icon-graph/grafico-de-rosca.png" alt="grafico de barra">
                     <p>${g.nome}</p>
-                    <button onclick="user.removeGraph(${g.id})" id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
+                    <button onclick="user.removeGraph(event,${g.id})" id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
                 </div>`
                 }
             })
@@ -381,6 +382,263 @@ function abrirAside(nome){
     }
 
 }
+function abrirGrafico(idx){
+    if(gselected.graficoID == idx){
+        gselected.graficoID = null
+        desenharGraficos()
+    }
+    else{
+        gselected.graficoID = idx
+        var canvas= ''
+    var container = document.getElementById('Dashboard')
+    //percorrer todo o dashboard e encontrar o que está selecionado
+    user.dashboard.forEach(dash=>{
+        if (dash.id == user.dashSelected){
+            //criar um canvas para cada grafico, o id do grafico é atribuido ao canva
+            dash.graficos.forEach(g=>{
+                if (g.id == idx){
+                  if (g.tipo == 'line'|| g.tipo == 'bar'){
+                    canvas+= `
+                    <div class="selectG">
+                    <canvas id="g${g.id}"></canvas>
+                    </div>`
+
+                }
+                else{
+                    canvas+= `
+                <div class="selectG">
+                <canvas id="g${g.id}"></canvas>
+                </div>`
+                }  
+                }
+                
+                
+            })
+            //adicionando ao html todo os canvas
+            container.innerHTML = canvas
+            //percorrer novamente todos os graficos no objeto usuario
+            dash.graficos.forEach(g=>{
+                if(g.id == idx){
+                    //criando array de dados
+                var dados = []
+                //percorrer cada grafico e obter o array de elementos, dados e cores e id
+                g.elementos.forEach((e,id)=>{
+                    //instancioando o objeto data que vai receber e estruturar todos os dados
+                    var data = new dado(e,g.dados[id],g.cores[id])
+                    dados.push(data)
+                })
+                console.log(g);
+                //obter a ordem escolhida no grafico e ordenar o valor
+                if(g.ordem == 'maior'){
+                    dados.sort((a, b) => b.valor - a.valor);
+                }
+                if(g.ordem == 'menor'){
+                    dados.sort((a, b) => a.valor - b.valor);
+                }
+                //adicionar grafico do tipo barra
+                if(g.tipo == 'bar'){
+                    var grafico = document.getElementById(`g${g.id}`)
+                    var ctx = grafico.getContext('2d')
+                    var myBarChart = new Chart(ctx, {
+                        type: 'bar',  // Especifica o tipo de gráfico: 'bar'
+                        data: {
+                          labels: dados.map(d=>d.nome), // Rótulos no eixo X
+                          datasets: [{
+                            label: g.nome,
+                            data:dados.map(d=>d.valor),
+                            backgroundColor:dados.map(d=>d.cor),  // Dados para cada mês
+                            maxBarThickness:40,
+                            borderWidth: 1 // Largura da borda das barras
+                          }]
+                        },
+                        options: {
+                        
+                          scales: {
+                            x: {
+                                ticks: {
+                                    color: '#fff', // Cor do texto das etiquetas do eixo X
+                                    font: {
+                                        size: 14 // Tamanho da fonte das etiquetas do eixo X
+                                    }
+                                },
+                                grid: {
+                                    color: 'gray', // Cor das linhas de grade do eixo X
+                                    lineWidth: 1, // Espessura das linhas de grade do eixo X
+                                }
+                            },
+                            y: {
+                              beginAtZero: true,
+                              ticks: {
+                                color: '#fff', // Cor do texto das etiquetas do eixo Y
+                                font: {
+                                    size: 14 // Tamanho da fonte das etiquetas do eixo Y
+                                }
+                            },
+                            grid: {
+                                color: 'gray', // Cor das linhas de grade do eixo Y
+                                lineWidth: 1 // Espessura das linhas de grade do eixo Y
+                            } // Iniciar o eixo Y em zero
+                            }
+                          }
+                          
+                        }
+                      });
+                }
+                //adicionar grafico do tipo pizza
+                if(g.tipo == 'pizza'){
+                    var grafico = document.getElementById(`g${g.id}`)
+                    var ctx = grafico.getContext('2d')
+                    var myPieChart = new Chart(ctx, {
+                        type: 'pie',  // Especifica o tipo de gráfico: 'pie'
+                        data: {
+                          labels:dados.map(d=>d.nome),  // Rótulos para cada fatia
+                          datasets: [{
+                            label: g.nome,
+                            data: dados.map(d=>d.valor),  // Valores para cada fatia
+                            backgroundColor: dados.map(d=>d.cor),
+                            borderWidth: 2  // Largura das bordas das fatias
+                          }]
+                        },
+                        options: {
+                          responsive: true, // faz o gráfico ser responsivo
+                        maintainAspectRatio: true,
+                          plugins: {
+                            legend: {
+                                position: 'left',
+                            },
+                            title: {
+                                display: true,
+                                text: g.nome,
+                                    color:'white',
+                                    font: {
+                                        size: 16 // Define o tamanho da fonte do título
+                                    }
+                            },
+                            tooltip: {
+                              enabled: true , // Habilita tooltips ao passar o mouse
+                              callback:{
+                                label: function(context){
+                                    let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += context.raw; // Mostra o valor bruto da fatia
+                                return label;
+                                }
+                              }
+                            }
+                          }
+                        }
+                      });
+                }
+                //adicionar grafico do tipo Linha
+                if(g.tipo == 'line'){
+                    var grafico = document.getElementById(`g${g.id}`)
+                    var ctx = grafico.getContext('2d')
+                    const myLineChart = new Chart(ctx, {
+                        type: 'line', // Tipo de gráfico: linha
+                        data: {
+                            labels:dados.map(d=>d.nome),
+                            datasets: [{
+                                label: g.nome,
+                                data:  dados.map(d=>d.valor),
+                                fill: true, // Se deve preencher a área abaixo da linha
+                                backgroundColor: g.cores,
+                                borderColor: 'rgba(75, 192, 192, 1)', // Cor da linha
+                                borderWidth: 2, // Espessura da linha
+                                pointBackgroundColor:'rgba(75, 192, 192, 1)' , // Cor dos pontos
+                                pointBorderColor: '#fff', // Cor da borda dos pontos
+                                pointRadius: 5 // Tamanho dos pontos
+                            }]
+                        },
+                        options: {responsive: true, // faz o gráfico ser responsivo
+                        maintainAspectRatio: true,
+                            
+                            scales: {
+                                x: {
+                                    ticks: {
+                                        color: '#fff', // Cor do texto das etiquetas do eixo X
+                                        font: {
+                                            size: 14 // Tamanho da fonte das etiquetas do eixo X
+                                        }
+                                    },
+                                    grid: {
+                                        color:'white',
+                                        lineWidth: 1, // Espessura das linhas de grade do eixo X
+                                    }
+                                },
+                                y: {
+                                    beginAtZero: true // O eixo Y começa em zero,
+                                    ,ticks: {
+                                        color: '#fff', // Cor do texto das etiquetas do eixo X
+                                        font: {
+                                            size: 14 // Tamanho da fonte das etiquetas do eixo X
+                                        }
+                                    },
+                                    grid: {
+                                        color:'white',
+                                        lineWidth: 1, // Espessura das linhas de grade do eixo X
+                                    }
+                                }
+                            },
+                            plugins: {
+                                
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            return `${context.dataset.label}: ${context.parsed.y}`; // Exibir label e valor
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }); 
+                }
+                //adicionar grafico do tipo Rosquinha
+                if(g.tipo == 'doughnut'){
+                    var grafico = document.getElementById(`g${g.id}`)
+                    var ctx = grafico.getContext('2d')
+                    const donnut = new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: dados.map(d=>d.nome),
+                            datasets: [{
+                                label: g.nome,
+                                data: dados.map(d=>d.valor),
+                                backgroundColor:dados.map(d=>d.cor) ,
+                                hoverOffset: 4
+                            }]
+                        },
+                        options: {
+                          responsive: true, // faz o gráfico ser responsivo
+                        maintainAspectRatio: true,  responsive: true,  // Mantém o gráfico responsivo
+                            
+                            plugins: {
+                                legend: {
+                                    position: 'left',
+                                },
+                                title: {
+                                    display: true,
+                                    text: g.nome,
+                                    color:'white',
+                                    font: {
+                                        size: 16// Define o tamanho da fonte do título
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+                }
+                
+            })
+            
+        }
+    })
+    }
+    
+   
+}
 //desenha os graficos no container de graficos 
 function desenharGraficos(){
     var canvas= ''
@@ -395,6 +653,7 @@ function desenharGraficos(){
                     <div class="container-g">
                     <canvas id="g${g.id}"></canvas>
                     </div>`
+
                 }
                 else{
                     canvas+= `
@@ -698,5 +957,5 @@ function criarGraficoPainel(){
 var user = new usuario(0,'Paulo','123','paulo@gmail.com',[])
 //objeto que controla o comportamento da barra lateral
 var as = {botaoAmostra:'',clicks:0}
-
+var gselected = {graficoID:null}
 defaltmain()
