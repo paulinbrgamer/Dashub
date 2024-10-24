@@ -22,10 +22,11 @@ input[type="button"]:hover{
     position: absolute;
     align-items: center;
     justify-content: center;
-    background-color: rgba(34, 36, 37, 0.719);
+    background-color: rgba(34, 36, 37, 0.322);
     
 }
 .apagar{
+    display: none;
     visibility: hidden;
     opacity: 0;
     position: relative;

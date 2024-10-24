@@ -1,6 +1,8 @@
- var token;
 var url = 'https://api-dashub-dev.up.railway.app/'
 async function login(){
+    var img = document.getElementById('load')
+    img.classList.add('mostrar')
+    img.classList.remove('apagar')
     var email = document.getElementById('idemail').value
     var pass = document.getElementById('ipword').value
     var res = await fetch(url+'auth/login',{
@@ -13,16 +15,24 @@ async function login(){
                 senha: pass
         })  
     })
-    if(res){
+    img.classList.remove('mostrar')
+    img.classList.add('apagar')
+    if(!res.ok){
         
         var body = await res.json()
-        if (body.erro){
-            window.alert(body.erro)
+        if (body.msg){
+            window.alert(body.msg)
         }
-        else{
-            
-            
-        }
+    }
+    else{
+        var body = await res.json()    
+        localStorage.setItem('email',body.email)
+        localStorage.setItem('nome',body.nome)
+        localStorage.setItem('token',body.token)
+        var home = document.createElement('a')
+        home.href = 'home.html'
+        home.click()
+        
     }
     
     
