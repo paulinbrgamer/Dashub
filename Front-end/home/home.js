@@ -1032,7 +1032,11 @@ function criarGraficoPainel(){
     document.querySelector('#container-home').innerHTML = telanovo
     
 }
-
+function AbrirRepositorios(){
+    var home = document.createElement('a')
+        home.href = 'repositorios.html'
+        home.click()
+}
 
 //conectar com o backend
 var url = 'https://api-dashub-dev.up.railway.app/'
