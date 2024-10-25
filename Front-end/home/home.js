@@ -1,43 +1,66 @@
 //classe usuário que contem seus atributos e metodos
 class usuario{
-    constructor(id,nome,senha,email,dashboard){
+    constructor(id,nome,senha,email,dashboard,tk){
         this.id = id
         this.nome = nome
         this.senha = senha
         this.email = email
         this.dashboard = dashboard
-        this.ndash = 0
-        this.ngraf = 0
+        this.tk = tk
         this.dashSelected = null
     }
+    async getAllData(){
+        this.nome = localStorage.getItem('nome')
+        this.email = localStorage.getItem('email')
+        const FetchDash = await fetch(url+rota_Dash+this.tk,{
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
+        if(FetchDash.ok){
+            var dados = await FetchDash.json()
+            
+            if(dados){
+                this.id = dados[0].id_user
+                //adicionar os dashboards ao site
+            this.dashboard = dados
+            }
+            else{
+                dados = []
+                this.dashboard = dados
+            }
+            
+        }
+        
+    }
     //metodo que adiciona um dashboard no atributo dashboar do usuário
-    adicionarDashboard(){
+    async adicionarDashboard(){
         //obtem o nome do novo dashboard 
         var iName = document.getElementById('name_dashboard')
         //verifica se o nome é valido
         if(typeof iName.value === 'string' && iName.value.trim().length > 0){
             //cria o objeto  dashboard 
-            var novoDash = new dashboard(iName.value,this.ndash,[],this.id)
-            //adiciona no objeto user 
-            this.dashboard.push(novoDash)
-            //seleciona esse novo dashboard
-            this.selecionarDash(this.ndash)
-            //incrementa o numero de dashboards
-            this.ndash++
-            
-            iName.value = ''
-            
-            
+            var requiNovoDash = await fetch(url+rota_Dash+createD,{
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({nome:iName.value,token:this.tk})
+            })
+            if(requiNovoDash.ok){
+                await this.getAllData()
+                abrirDash()
+            }
         }
         else{
             window.alert("Digite um nome valido") 
         }
     }
     //remover um dashboard
-    removerDashboard(event,id){
+    async removerDashboard(event,id){
         event.stopPropagation();
         //percorrer todos os dashboards do usuario
-        this.dashboard.forEach((element,idx) => {
+        this.dashboard.forEach(async (element,idx) => {
             //encontrar o dashboard selecionado para deletar pelo ID do mesmo
             if (element.id == id){
                 //verifica se o que está sendo deletado está em exibição, se sim apaga a exibição dele
@@ -46,12 +69,22 @@ class usuario{
                 
                     defaltmain()
                 }
-                //remove o dashboard do atributo dashboard do objeto user
                 this.dashboard.splice(idx,1)
+                drawnDash()
+                var requiDelDash = await fetch(url+rota_Dash+deleteD,{
+                    method:'DELETE',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({id:id,token:this.tk})
+                })
+                if(requiDelDash.ok){
+                    await this.getAllData()
+                    
+                }
             }
         });
-        this.ndash--
-        drawnDash()
+        
         
     }
     //metodo que seleciona um dashboard por id
@@ -75,16 +108,23 @@ class usuario{
         
     }
     //remover grafico
-    removeGraph(event,id){
+    async removeGraph(event,id){
         event.stopPropagation();
         //encontrar o dashboard que está o grafico que foi selecionado para deletar
         this.dashboard.forEach(d=>{
             if (d.id == this.dashSelected){
-                d.graficos.forEach((g,idx)=>{
+                d.graficos.forEach(async(g,idx)=>{
                     //encontrar o grafico e onde ele fica no array de graficos
                     if(g.id == id){
                         //remover o grafico do array de graficos do dashboard selecionado
                         d.graficos.splice(idx,1)
+                        var requestDelGraf = await fetch(url+rota_Graf+deleteD,{
+                            method:'DELETE',
+                            headers:{
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({id:id,token:this.tk})
+                        })
                         //redesenhar os graficos na tela e o painel de graficos
                         desenharGraficos()
                         drawPainelGraphcs()
@@ -94,7 +134,7 @@ class usuario{
         })
     }
     //adicionar novo grafico
-    novoGrafico(){
+    async novoGrafico(){
         //variavel que verifica se todos os campos foram preenchidos dos dados do grafico
         var preenchido = true
         //quantas elementos vao ser necessários verificar
@@ -137,18 +177,29 @@ class usuario{
             var ordem = document.getElementById('ordemG').value
             //crair novo grafico a partir dos dados que foram fornecidos
             var graficoNovo= new grafico(this.ngraf,tipo,elementos,dados,id_dash,nome,cores,ordem);
-            this.ngraf++
             //adicionar no dashboard o novo grafico
-            this.dashboard.forEach(element => {
-                if (element.id == this.dashSelected){
-                    element.graficos.push(graficoNovo)
-                    console.log(elementos.graficos)
-                }
-                
-            });
-            //desenhar os graficos e o painel
-            painelDash()
-            desenharGraficos()
+            var requiNovoG = await fetch(url+rota_Graf+novoGra,{
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    nome: graficoNovo.nome,
+                    tipo: graficoNovo.tipo,
+                    ordem: graficoNovo.ordem,
+                    elementos: graficoNovo.elementos,
+                    dados: graficoNovo.dados,
+                    cores: graficoNovo.cores,
+                    dashId: this.dashSelected,
+                    token:this.tk
+                })
+            })
+            if(requiNovoG.ok){
+                await this.getAllData()
+                painelDash()
+                desenharGraficos()
+            }
+
         }
     }
 }
@@ -180,19 +231,25 @@ class dado{
         this.cor = cor
     }
 }
+
+
+//---------------------------------Funcionalidades de interface-----------------------------------
+
 //desenar cada dashboard listado do usuario em um container dentro do painel de dashboard
 function drawnDash(){
     var dashs = ''
-    user.dashboard.forEach(d => {
-        dashs += `
-        <div id = "${d.id}" class="graph" onclick = "user.selecionarDash(${d.id})">
-        <img src="home/img/painel-de-controle.png" width="38" style="margin-right:10px;" alt="lixeira">
-        <h3 style="margin-right:15px;">${d.nome}</h3>
-        <button onclick="user.removerDashboard(event,${d.id})" id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
-        </div>
-        `
-    });
-    document.getElementById('container-Dashboards').innerHTML = dashs
+    if (user.dashboard){
+        user.dashboard.forEach(d => {
+            dashs += `
+            <div id = "${d.id}" class="graph" onclick = "user.selecionarDash(${d.id})">
+            <img src="home/img/painel-de-controle.png" width="38" style="margin-right:10px;" alt="lixeira">
+            <h3 style="margin-right:15px;">${d.nome}</h3>
+            <button onclick="user.removerDashboard(event,${d.id})" id="delete-dash"><img src="home/img/001-lixeira.png" width="24" alt="lixeira"></button>
+            </div>
+            `
+        });
+        document.getElementById('container-Dashboards').innerHTML = dashs
+    }
 }
 //abrir painel de usuario
 function abrirUser(){
@@ -953,8 +1010,23 @@ function criarGraficoPainel(){
     document.querySelector('#container-home').innerHTML = telanovo
     
 }
+
+
+//conectar com o backend
+var url = 'https://api-dashub-dev.up.railway.app/'
+var rota_Dash = 'dash/'
+var createD = 'create'
+var deleteD = 'delete'
+var rota_Graf = 'graph/'
+var novoGra = 'create'
+if (!localStorage.getItem('token')){
+    var home = document.createElement('a')
+        home.href = 'index.html'
+        home.click()
+}
 //instanciaão do usuario 
-var user = new usuario(0,'Paulo','123','paulo@gmail.com',[])
+var user = new usuario(0,null,'*******',null,null,localStorage.getItem('token'))
+user.getAllData()
 //objeto que controla o comportamento da barra lateral
 var as = {botaoAmostra:'',clicks:0}
 var gselected = {graficoID:null}
