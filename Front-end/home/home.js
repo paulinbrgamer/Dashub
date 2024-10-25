@@ -110,6 +110,7 @@ class usuario{
     //remover grafico
     removeGraph(event,id){
         event.stopPropagation();
+        console.log("click")
         //encontrar o dashboard que está o grafico que foi selecionado para deletar
         this.dashboard.forEach(d=>{
             if (d.id == this.dashSelected){
@@ -727,13 +728,15 @@ function desenharGraficos(){
             dash.graficos.forEach(g=>{
                 //criando array de dados
                 var dados = []
-                //percorrer cada grafico e obter o array de elementos, dados e cores e id
+                if(g.elementos){
+                  //percorrer cada grafico e obter o array de elementos, dados e cores e id
                 g.elementos.forEach((e,id)=>{
                     //instancioando o objeto data que vai receber e estruturar todos os dados
                     var data = new dado(e,g.dados[id],g.cores[id])
                     dados.push(data)
-                })
-                console.log(g);
+                })  
+                }
+                
                 //obter a ordem escolhida no grafico e ordenar o valor
                 if(g.ordem == 'maior'){
                     dados.sort((a, b) => b.valor - a.valor);
