@@ -108,7 +108,7 @@ class usuario{
         
     }
     //remover grafico
-    async removeGraph(event,id){
+    removeGraph(event,id){
         event.stopPropagation();
         //encontrar o dashboard que está o grafico que foi selecionado para deletar
         this.dashboard.forEach(d=>{
@@ -118,16 +118,17 @@ class usuario{
                     if(g.id == id){
                         //remover o grafico do array de graficos do dashboard selecionado
                         d.graficos.splice(idx,1)
+                        desenharGraficos()
+                        drawPainelGraphcs()
                         var requestDelGraf = await fetch(url+rota_Graf+deleteD,{
                             method:'DELETE',
                             headers:{
                                 'Content-Type': 'application/json'
                             },
-                            body: JSON.stringify({id:id,token:this.tk})
+                            body: JSON.stringify({id:g.id,token:this.tk})
                         })
                         //redesenhar os graficos na tela e o painel de graficos
-                        desenharGraficos()
-                        drawPainelGraphcs()
+                        
                     }
                 })
             }
