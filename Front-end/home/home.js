@@ -975,7 +975,7 @@ function drawndados(){
         var container = document.getElementById('container-data')
         var d = ''
         for (var i = 0;i<n;i++){
-            d += `<div class="data">
+            d += `<div class="data" id="data${i+1}">
                         <p>${i+1}</p>
                         <input id="nad${i+1}" class="inputs_data"  type="text" placeholder="Nome">
                         <input id="nud${i+1}"  class="inputs_data"  type="number" placeholder="Valor">
@@ -1025,7 +1025,7 @@ function criarGraficoPainel(){
             <h1 class="item">Dados</h1>
             <div>
             <div  id="container-arquivo">
-                <label  id="label-input" for="dados">Carregar Dados CSV</label> <input  type="file" name="arquivo" id="dados" >
+                <label style="margin-top:10px;"  id="label-input" for="dados">Carregar Dados CSV</label> <input  type="file" name="arquivo" id="dados" >
                 
                 
             </div></div>
@@ -1076,8 +1076,22 @@ input.addEventListener('change',function(){
         dados = reader.result
         //chamar função e passar a variavel string como parametro para que os dados retornem como um array
         array_dados = Csv_reader(dados)
-        
-        console.log(array_dados)
+        var size;
+        array_dados.forEach((linha,idx)=>{
+            if (idx >0){
+                size = array_dados.length-1
+                document.getElementById('nomeG').value = nome_arquivo
+                document.getElementById('elementosG').value = size
+                drawndados()
+
+                 
+            }
+            
+        })
+        for (var i = 0;i<size;i++){
+            document.getElementById(`nad${i+1}`).value = array_dados[i+1][0]
+            document.getElementById(`nud${i+1}`).value = Number(array_dados[i+1][1])
+            }
         
     })
     //ler os dados como texto
