@@ -21,15 +21,27 @@ class usuario{
             var dados = await FetchDash.json()
             
             if(dados){
-                this.id = dados[0].id_user
                 //adicionar os dashboards ao site
             this.dashboard = dados
             }
             else{
                 dados = []
                 this.dashboard = dados
+                
             }
-            
+            this.dashboard.forEach(async dashs=>{
+                var BuscarDadosGraficos = await fetch(url+rota_Graf,{
+                    method:'POST',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    body:JSON.stringify({dashId:dashs.id,token:this.tk})
+                })
+                if (BuscarDadosGraficos.ok){
+                    dashs.graficos = await BuscarDadosGraficos.json()
+                    desenharGraficos()
+                }
+            })
         }
         
     }
@@ -196,13 +208,20 @@ class usuario{
                     token:this.tk
                 })
             })
+            painelDash()
             if(requiNovoG.ok){
+                
                 await this.getAllData()
-                painelDash()
-                desenharGraficos()
+                drawPainelGraphcs()
             }
 
         }
+    }
+    quit(){
+        localStorage.setItem('token',null)
+        var home = document.createElement('a')
+        home.href = 'index.html'
+        home.click()
     }
 }
 
@@ -274,11 +293,11 @@ function abrirUser(){
         
     </div>
     <div style="display: flex; align-items: center; justify-content: space-between;margin-top: 10px;">
-        <h5 style="color:rgb(196, 193, 193);" for="name_dashboard">Senha: </h5>
-        <h5 style="color:#0AC00A;">${user.senha}</h5>
+        <h5 style="color:rgb(196, 193, 193);" for="name_dashboard">Dashboards : </h5>
+        <h5 style="color:#0AC00A;">${user.dashboard.length}</h5>
         
     </div>
-    <button style="background-color: red;color: white;font-weight: 400;font-size:14pt;width:60%;margin:auto;margin-top:30px;border-radius:3px;">Sair</button>
+    <button style="background-color: red;color: white;font-weight: 400;font-size:14pt;width:60%;margin:auto;margin-top:30px;border-radius:3px;" onclick="user.quit()">Sair</button>
     </div
     `
     document.querySelector('#container-home').innerHTML = telanovo
@@ -340,7 +359,6 @@ function backDash(){
     </div>
 </div>`
     document.querySelector('#container-home').innerHTML = teladash
-    
     drawnDash()
 }
 //desenhar o container de graficos listados dentro do dashboard selecionado
