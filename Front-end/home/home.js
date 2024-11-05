@@ -43,6 +43,9 @@ class usuario{
                 }
             })
         }
+        else if(FetchDash.status == 401){
+            this.quit()
+        }
         
     }
     //metodo que adiciona um dashboard no atributo dashboar do usuário
@@ -122,7 +125,6 @@ class usuario{
     //remover grafico
     removeGraph(event,id){
         event.stopPropagation();
-        console.log("click")
         //encontrar o dashboard que está o grafico que foi selecionado para deletar
         this.dashboard.forEach(d=>{
             if (d.id == this.dashSelected){
@@ -506,7 +508,6 @@ function abrirGrafico(idx){
                     var data = new dado(e,g.dados[id],g.cores[id])
                     dados.push(data)
                 })
-                console.log(g);
                 //obter a ordem escolhida no grafico e ordenar o valor
                 if(g.ordem == 'maior'){
                     dados.sort((a, b) => b.valor - a.valor);
@@ -940,7 +941,7 @@ function desenharGraficos(){
                         },
                         options: {
                           responsive: true, // faz o gráfico ser responsivo
-                        maintainAspectRatio: true,  responsive: true,  // Mantém o gráfico responsivo
+                            maintainAspectRatio: true, // Mantém o gráfico responsivo
                             
                             plugins: {
                                 legend: {
@@ -950,6 +951,7 @@ function desenharGraficos(){
                                     display: true,
                                     text: g.nome,
                                     color:'white',
+                                    margin:30,
                                     font: {
                                         size: 16// Define o tamanho da fonte do título
                                     }
