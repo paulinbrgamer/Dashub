@@ -26,9 +26,9 @@ async function login(){
     }
     else{
         var body = await res.json()    
-        localStorage.setItem('email',body.email)
-        localStorage.setItem('nome',body.nome)
-        localStorage.setItem('token',body.token)
+        sessionStorage.setItem('email',body.email)
+        sessionStorage.setItem('nome',body.nome)
+        sessionStorage.setItem('token',body.token)
         var home = document.createElement('a')
         home.href = 'home.html'
         home.click()

@@ -10,8 +10,8 @@ class usuario{
         this.dashSelected = null
     }
     async getAllData(){
-        this.nome = localStorage.getItem('nome')
-        this.email = localStorage.getItem('email')
+        this.nome = sessionStorage.getItem('nome')
+        this.email = sessionStorage.getItem('email')
         const FetchDash = await fetch(url+rota_Dash+this.tk,{
             headers:{
                 'Content-Type': 'application/json'
@@ -218,7 +218,7 @@ class usuario{
         }
     }
     quit(){
-        localStorage.setItem('token',null)
+        sessionStorage.setItem('token',null)
         var home = document.createElement('a')
         home.href = 'index.html'
         home.click()
@@ -1194,13 +1194,13 @@ var createD = 'create'
 var deleteD = 'delete'
 var rota_Graf = 'graph/'
 var novoGra = 'create'
-if (!localStorage.getItem('token')){
+if (!sessionStorage.getItem('token')){
     var home = document.createElement('a')
         home.href = 'index.html'
         home.click()
 }
 //instanciaão do usuario 
-var user = new usuario(0,null,'*******',null,null,localStorage.getItem('token'))
+var user = new usuario(0,null,'*******',null,null,sessionStorage.getItem('token'))
 user.getAllData()
 //objeto que controla o comportamento da barra lateral
 var as = {botaoAmostra:'',clicks:0}
