@@ -55,6 +55,7 @@ class usuario{
         //verifica se o nome é valido
         if(typeof iName.value === 'string' && iName.value.trim().length > 0){
             //cria o objeto  dashboard 
+            abrirDash()
             var requiNovoDash = await fetch(url+rota_Dash+createD,{
                 method:'POST',
                 headers:{
@@ -64,7 +65,7 @@ class usuario{
             })
             if(requiNovoDash.ok){
                 await this.getAllData()
-                abrirDash()
+                drawnDash()
             }
         }
         else{
