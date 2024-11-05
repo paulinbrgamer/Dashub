@@ -201,6 +201,7 @@ h1{
 }
 .container-g{
     max-height: 35dvh;
+    min-width: 30dvw;
     flex: 1;
     background-color:#121212;
     padding: 10px;
@@ -249,6 +250,6 @@ h1{
         position: absolute;
     }
     .container-g{
-        max-height: 100dvh;
+        max-height: 60dvh;
     }
 }
