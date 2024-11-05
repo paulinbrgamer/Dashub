@@ -191,6 +191,8 @@ class usuario{
             var ordem = document.getElementById('ordemG').value
             //crair novo grafico a partir dos dados que foram fornecidos
             var graficoNovo= new grafico(this.ngraf,tipo,elementos,dados,id_dash,nome,cores,ordem);
+            painelDash()
+            drawPainelGraphcs()
             //adicionar no dashboard o novo grafico
             var requiNovoG = await fetch(url+rota_Graf+novoGra,{
                 method:'POST',
@@ -208,7 +210,7 @@ class usuario{
                     token:this.tk
                 })
             })
-            painelDash()
+
             if(requiNovoG.ok){
                 
                 await this.getAllData()
@@ -979,7 +981,7 @@ function drawndados(){
                         <p>${i+1}</p>
                         <input id="nad${i+1}" class="inputs_data"  type="text" placeholder="Nome">
                         <input id="nud${i+1}"  class="inputs_data"  type="number" placeholder="Valor">
-                        <input id="cor${i+1}"  style="width: 10%;background-color: transparent;"  type="color" name="" id="">
+                        <input id="cor${i+1}"  style="width: 10%;background-color: transparent;"  type="color" name="" value="#FFFFFF">
                     </div>`
         }
         container.innerHTML = d
@@ -1019,7 +1021,7 @@ function criarGraficoPainel(){
                             <option value="maior">Decrescente</option>
                             <option value="menor">Crescente</option>
                         </select>
-                        <button onclick="drawndados()" style="background-color: #0AC00A;padding: 10px;border-radius: 6px;margin-top:15px;">Adicionar</button>
+                        <button onclick="drawndados()" style="background-color: #0AC00A;padding: 10px;border-radius: 6px;margin-top:15px;">Adicionar elementos</button>
             </div>
                         
             <h1 class="item">Dados</h1>
