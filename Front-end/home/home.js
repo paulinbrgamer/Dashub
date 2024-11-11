@@ -431,7 +431,7 @@ function defaltmain(){
             <div style="align-self: center;margin: auto;">
             <div style="display:flex;align-items:center;justify-content:center;">
                 <h1 style="font-size: 28pt;margin-right:5px">Seja bem vindo ao Dash</h1>
-                <div style="background-color:yellow; width:60px;border-radius:4px;">
+                <div style="background-color:white; width:60px;border-radius:4px;">
                 <h1 style="color:black;font-weight:800;text-align:center;padding:5px;font-size:20pt;">Hub</h1>
                 </div>
             </div>
