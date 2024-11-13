@@ -969,7 +969,7 @@ function desenharGraficos(){
 }
 //funão para desenhar os campos referentes a nome valor e cor dos dados a serem atribuidos no novo grafico criado
 function drawndados(){
-
+    
     //VERIFICA SE O VALOR NOME E´VALIDO
     if (!document.getElementById('nomeG').value){
         window.alert("Preencha corretamente os campos")
@@ -984,7 +984,7 @@ function drawndados(){
                         <p>${i+1}</p>
                         <input id="nad${i+1}" class="inputs_data"  type="text" placeholder="Nome">
                         <input id="nud${i+1}"  class="inputs_data"  type="number" placeholder="Valor">
-                        <input id="cor${i+1}"  style="width: 10%;background-color: transparent;"  type="color" name="" value="#FFFFFF">
+                        <input id="cor${i+1}"  style="width: 10%;background-color: transparent;"  type="color" name="" value="${generateColor()}" >
                     </div>`
         }
         container.innerHTML = d
@@ -1191,7 +1191,18 @@ input.addEventListener('change',function(){
     return linhas_totais
     }
 }
-
+function generateColor(){
+    var value = '#'
+    var letters = ['A','B','C','D','E','F']
+    
+    
+    for(var i =0;i<6;i+=2){
+        var inteiro = Math.floor(Math.random() *(0-5)+ 0)*-1
+        value+= inteiro+letters[inteiro]
+    }
+    return value
+    
+}
 //conectar com o backend
 var url = 'https://api-dashub-dev.up.railway.app/'
 var rota_Dash = 'dash/'
