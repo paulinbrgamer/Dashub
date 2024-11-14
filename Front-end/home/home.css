@@ -253,3 +253,24 @@ h1{
         max-height: 60dvh;
     }
 }
+@media print{
+    *{
+        color: black;
+    }
+    nav{
+        display: none;
+    }
+    main{
+        grid-column:  1/3;
+        display: flex;
+        justify-content: center;
+        margin: 0px;
+        padding: 0px;
+        width: 100dvw;
+        background-color: white;
+    }
+    #Dashboard{
+        background-color: white;
+        
+    }
+}

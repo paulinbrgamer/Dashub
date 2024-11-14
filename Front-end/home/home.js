@@ -1191,6 +1191,7 @@ input.addEventListener('change',function(){
     return linhas_totais
     }
 }
+//função que gera cor aleatoria ao inserir elementos para adição de graficos
 function generateColor(){
     var value = '#'
     var letters = ['A','B','C','D','E','F']
@@ -1202,6 +1203,18 @@ function generateColor(){
     }
     return value
     
+}
+function toLight(){
+    var main = document.querySelector('main')
+    main.style.backgroundColor = '#edf2f3'
+    var nav = document.querySelector('nav')
+    nav.style.backgroundColor = '#edf2f3'
+    //aside
+    var aside = document.querySelector('aside')
+    aside.style.backgroundColor = 'white'
+    aside.style.borderRightColor = 'white'
+    var dashboard = document.getElementById("Dashboard")
+    dashboard.style.backgroundColor = 'white'
 }
 //conectar com o backend
 var url = 'https://api-dashub-dev.up.railway.app/'
