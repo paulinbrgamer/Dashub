@@ -1,6 +1,6 @@
 <?php
 
-    require_once '../vendor/autoload.php';
+    require_once 'vendor/autoload.php';
 
     $dotenv = Dotenv\Dotenv::createUnsafeImmutable(__DIR__);
     $dotenv->load();
@@ -45,7 +45,7 @@
         public function query($sql){
             $comand = $this->conn->prepare($sql);
             $comand->execute();
-            return $comand->fetchAll();
+            return $comand->fetch();
         }
     }
 ?>
