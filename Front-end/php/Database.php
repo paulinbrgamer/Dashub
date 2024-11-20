@@ -20,6 +20,7 @@
             $this->password = getenv('PASSWORD');
             
             $this->connect();
+            $this->create();
         }
 
         private function connect(){
@@ -32,8 +33,13 @@
             }
         }
 
-        
-    }
+        private function create(){
+            $sql = $this->conn->prepare("show tables;");
 
-    $papa = new Database();
+            $sql->execute();
+            if(!$sql->fetchAll()){
+                $this->conn->query(CREATE);
+            }
+        }
+    }
 ?>
