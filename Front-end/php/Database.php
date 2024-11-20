@@ -16,7 +16,7 @@
         public function __construct(){
             $this->host = getenv('HOST');
             $this->dbname = getenv('DBNAME');
-            $this->username = getenv('USERNAME');
+            $this->username = getenv('USER');
             $this->password = getenv('PASSWORD');
             
             $this->connect();
@@ -24,9 +24,9 @@
 
         private function connect(){
             try{
-                $this->conn = new PDO("pgsql:host=$this->host;dbname=$this->dbname", $this->username, $this->password);
+                $this->conn = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->username, $this->password);
                 $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                echo "Conseguii"; 
+                echo "Conseguii\n"; 
             } catch (PDOException $e) {
                 echo "Erro de conexão: ".$e->getMessage();
             }
