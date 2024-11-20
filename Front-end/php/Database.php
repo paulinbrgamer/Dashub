@@ -42,5 +42,11 @@
                 $this->conn->query(CREATE);
             }
         }
+
+        public function query($sql){
+            $comand = $this->conn->prepare($sql);
+            $comand->execute();
+            return $comand->fetchAll();
+        }
     }
 ?>
