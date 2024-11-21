@@ -7,15 +7,17 @@
     }
     
     if($_SERVER["REQUEST_METHOD"]=== "POST"){
-        if(isset($_POST["nome"])){
-            $nome = $_POST["nome"];
+        if(isset($_POST["dash_nome"])){
+            $dash_nome = $_POST["dash_nome"];
         }
-        if(isset($_POST["id_users"])){
-            $id_user = $_POST["id_users"];
+        if(isset($_POST["id_user"])){
+            $id_user = $_POST["id_user"];
         }
-        if(isset($_POST["id"])){
-            $id = $_POST["id"];
-            print_r($id);
+        if(isset($_POST["id_dash_delete"])){
+            $id_dash_delete = $_POST["id_dash_delete"];
+        }
+        if(isset($_POST["id_user_delete"])){
+            $id_user_delete = $_POST["id_user_delete"];
         }
         
         
@@ -90,7 +92,7 @@ class usuario{
             abrirDash()
 
             const dados = new URLSearchParams();
-            dados.append("nome", iName.value);
+            dados.append("dash_nome", iName.value);
             dados.append("id_user", this.id);
 
             var requiNovoDash = await fetch("",{
@@ -125,7 +127,8 @@ class usuario{
                 this.dashboard.splice(idx,1)
                 drawnDash()
                 const dados = new URLSearchParams();
-                dados.append("id", element.id);
+                dados.append("id_dash_delete", element.id);
+                dados.append("id_user_delete",element.id_user)
                 var requiDelDash = await fetch("",{
                     method:'POST',
                     headers:{
