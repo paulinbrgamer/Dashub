@@ -37,5 +37,5 @@
     }
 
     $app = new App();
-    print_r($app->register('paulo', 'paulo.ss.loraschi@gamail.com', '123'));
+
 ?>

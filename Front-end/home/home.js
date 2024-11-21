@@ -1223,7 +1223,7 @@ var createD = 'create'
 var deleteD = 'delete'
 var rota_Graf = 'graph/'
 var novoGra = 'create'
-if (!sessionStorage.getItem('token')){
+if (!sessionStorage.getItem('id')){
     var home = document.createElement('a')
         home.href = 'index.html'
         home.click()

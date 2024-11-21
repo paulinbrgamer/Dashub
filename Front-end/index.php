@@ -1,6 +1,3 @@
-<? 
-
-?>
 
 
 
@@ -16,6 +13,33 @@
     <title>Login</title>
 </head>
 <body>
+
+<?php
+    session_start();
+    include 'php/app.php';
+    // Verifica se o formulário foi enviado
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Captura os dados enviados pelo formulário
+        $senha = htmlspecialchars($_POST['pword']);
+        $email = htmlspecialchars($_POST['email']);
+        if($app->login( $email, $senha)){
+            $query = $app->login( $email, $senha);
+            $nome = $query["nome"];
+            $id = $query["id"];
+
+            $_SESSION['user_id'] = $id;
+            $_SESSION['email'] = $email;
+        header("Location: home.php");
+        exit;
+        }
+        else{
+            echo "<script>window.alert('não foi possivel login')</script>";
+        }
+        
+    }
+    ?>
+
+
     <div class="apagar" id="load">
         <img src="login/img/yibo-wangyibo.gif" alt="gif animado" >
     </div>
@@ -27,58 +51,14 @@
         </div>
     </div>
     
-    <form class="container">
+    <form class="container" method="post" action="">
         <img style="margin: auto;" src="login/img/user.png" alt="imagem de login" width="54">
         <label for="idemail">E-mail:</label>
         <input type="email" name="email" id="idemail">
         <label for="ipword">Senha:</label>
         <input type="password" name="pword" id="ipword">
-        <input  type="button" value="Entrar" onclick="login()">
+        <input  type="submit" value="Entrar" onclick="login()">
         <a style="width: 70px;" href="cadastro.html">Registrar</a>
-    </form>
-
-    <script >
-        async function login(){
-        var img = document.getElementById('load')
-        img.classList.add('mostrar')
-        img.classList.remove('apagar')
-        var email = document.getElementById('idemail').value
-        var pass = document.getElementById('ipword').value
-        var res = await fetch(url+'auth/login',{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json', // Define o tipo do conteúdo
-            },
-            body:JSON.stringify({
-                    email: email,
-                    senha: pass
-            })  
-        })
-        img.classList.remove('mostrar')
-        img.classList.add('apagar')
-        if(!res.ok){
-            
-            var body = await res.json()
-            if (body.msg){
-                window.alert(body.msg)
-            }
-        }
-        else{
-            var body = await res.json()    
-            sessionStorage.setItem('email',body.email)
-            sessionStorage.setItem('nome',body.nome)
-            sessionStorage.setItem('token',body.token)
-            var home = document.createElement('a')
-            home.href = 'home.html'
-            home.click()
-            
-        }
-    
-    
-        }
-
-
-
-    </script>
+    </form> 
 </body>
 </html>
