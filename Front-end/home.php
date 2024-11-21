@@ -82,7 +82,7 @@ class usuario{
                 headers:{
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({nome:iName.value,token:this.tk})
+                body: JSON.stringify({nome:iName.value,id:this.id})
             })
             if(requiNovoDash.ok){
                 await this.getAllData()

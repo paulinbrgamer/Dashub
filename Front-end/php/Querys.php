@@ -54,5 +54,6 @@
     const REGISTER = "INSERT INTO users (nome, email, senha) VALUES ";
     const SEARCH = "SELECT * FROM users WHERE email = ";
     const GETDASH = "SELECT * FROM dashboards WHERE id_user = ";
-    const GETGRAPH = "SELECT * FROM graficos WHERE id_dash = ";        
+    const GETGRAPH = "SELECT * FROM graficos WHERE id_dash = ";   
+    const GETDATAG = "SELECT * FROM referencias WHERE graficoId = ";        
 ?>
