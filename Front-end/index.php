@@ -27,7 +27,8 @@
             $nome = $query["nome"];
             $id = $query["id"];
 
-            $_SESSION['user_id'] = $id;
+            $_SESSION['id'] = $id;
+            $_SESSION['name'] = $nome;
             $_SESSION['email'] = $email;
         header("Location: home.php");
         exit;
