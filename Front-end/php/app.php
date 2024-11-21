@@ -34,8 +34,14 @@
                 return false;
             }
         }
+        public function getAllDash($id_user){
+            $termo = "'$id_user';";
+            $sql =  $this->db->conn->prepare(GETDASH . $id_user);
+            $sql->execute();
+            $usuario = $sql->fetchAll(PDO::FETCH_ASSOC);
+            return $usuario;
+        }
     }
 
     $app = new App();
-
 ?>
