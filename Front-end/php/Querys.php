@@ -52,8 +52,11 @@
         ALTER TABLE `referencias` ADD CONSTRAINT `referencias_graficoId_fkey` FOREIGN KEY (`graficoId`) REFERENCES `graficos`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;';
 
     const REGISTER = "INSERT INTO users (nome, email, senha) VALUES ";
-    const SEARCH = "SELECT * FROM users WHERE email = ";
-    const GETDASH = "SELECT * FROM dashboards WHERE id_user = ";
+    const GETUSER = "SELECT * FROM users WHERE email = ";
+    const GETDASHbyUSER = "SELECT * FROM dashboards WHERE id_user = ";
+    const GETDASHbyID = "SELECT * FROM dashboards WHERE id = ";
     const GETGRAPH = "SELECT * FROM graficos WHERE id_dash = ";   
-    const GETDATAG = "SELECT * FROM referencias WHERE graficoId = ";        
+    const GETDATAG = "SELECT * FROM referencias WHERE graficoId = ";
+    const CREATEDASH = "INSERT INTO dashboards (nome, id_user) VALUES ";
+    const DELETEDASH = "DELETE FROM dashboards WHERE id = ";
 ?>
