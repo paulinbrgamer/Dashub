@@ -34,14 +34,34 @@
                 return false;
             }
         }
-        public function getAllDash($id_user){
-            $termo = "'$id_user';";
-            $sql =  $this->db->conn->prepare(GETDASH . $id_user);
+        public function getGraphFor($id_dash){
+            $termo = "'$id_dash';";
+            $sql =  $this->db->conn->prepare(GETGRAPH . $id_dash);
             $sql->execute();
             $usuario = $sql->fetchAll(PDO::FETCH_ASSOC);
             return $usuario;
         }
+        public function getAllDash($id_user){
+            $termo = "'$id_user';";
+            $sql =  $this->db->conn->prepare(GETDASH . $id_user);
+            $sql->execute();
+            $data = $sql->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($data as &$dashs){
+                $id = $dashs["id"];
+                $graficos = $this->getGraphFor($id);
+                $dashs["graficos"] = $graficos;
+                
+            }
+            
+            return $data;
+        }
+
     }
 
     $app = new App();
+
+   
+
+    
+    
 ?>

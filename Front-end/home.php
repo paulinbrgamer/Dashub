@@ -62,9 +62,10 @@ class usuario{
         this.email = <?php $e =$_SESSION['email'];  echo "\"$e\"" . ' ;' ;?>
         this.id = <?php echo $_SESSION["id"]?>;
         var data = <?php echo json_encode($app->getAllDash($_SESSION["id"])) ?>;
-
+        
 
         data.forEach(line=>{
+            
             this.dashboard.push(line)
         })
     }
