@@ -1,52 +1,24 @@
 //classe usuário que contem seus atributos e metodos
 class usuario{
-    constructor(id,nome,senha,email,dashboard,tk){
+    constructor(id,nome,senha,email,dashboard){
         this.id = id
         this.nome = nome
         this.senha = senha
         this.email = email
         this.dashboard = dashboard
-        this.tk = tk
+
         this.dashSelected = null
     }
     async getAllData(){
-        this.nome = sessionStorage.getItem('nome')
-        this.email = sessionStorage.getItem('email')
-        const FetchDash = await fetch(url+rota_Dash+this.tk,{
-            headers:{
-                'Content-Type': 'application/json'
-            }
+        this.nome = <?php $n =$_SESSION['name'];  echo "\"$n\"" . ' ;' ;?>
+        this.email = <?php $e =$_SESSION['email'];  echo "\"$e\"" . ' ;' ;?>
+        this.id = <?php echo $_SESSION["id"]?>;
+        var data = <?php echo json_encode($app->getAllDash($_SESSION["id"])) ?>;
+
+
+        data.forEach(line=>{
+            this.dashboard.push(line)
         })
-        if(FetchDash.ok){
-            var dados = await FetchDash.json()
-            
-            if(dados){
-                //adicionar os dashboards ao site
-            this.dashboard = dados
-            }
-            else{
-                dados = []
-                this.dashboard = dados
-                
-            }
-            this.dashboard.forEach(async dashs=>{
-                var BuscarDadosGraficos = await fetch(url+rota_Graf,{
-                    method:'POST',
-                    headers:{
-                        'Content-Type': 'application/json'
-                    },
-                    body:JSON.stringify({dashId:dashs.id,token:this.tk})
-                })
-                if (BuscarDadosGraficos.ok){
-                    dashs.graficos = await BuscarDadosGraficos.json()
-                    desenharGraficos()
-                }
-            })
-        }
-        else if(FetchDash.status == 401){
-            this.quit()
-        }
-        
     }
     //metodo que adiciona um dashboard no atributo dashboar do usuário
     async adicionarDashboard(){
