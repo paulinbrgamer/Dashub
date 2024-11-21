@@ -34,6 +34,14 @@
                 return false;
             }
         }
+        public function getData($graficoId){
+            $termo = "'$graficoId';";
+            $sql =  $this->db->conn->prepare(GETDATAG . $termo);
+            $sql->execute();
+            $usuario = $sql->fetchAll(PDO::FETCH_ASSOC);
+            return $usuario;
+        }
+
         public function getGraphFor($id_dash){
             $termo = "'$id_dash';";
             $sql =  $this->db->conn->prepare(GETGRAPH . $id_dash);
@@ -49,8 +57,19 @@
             foreach ($data as &$dashs){
                 $id = $dashs["id"];
                 $graficos = $this->getGraphFor($id);
+                foreach($graficos as &$graph){
+                    $refe = $this->getData($graph["id"]);
+                    $graph["elementos"] = [];
+                    $graph["dados"] = [];
+                    $graph["cores"] = [];
+                    foreach($refe as &$values){
+                        array_push($graph["elementos"],$values["nome"]);
+                        array_push($graph["dados"],$values["valor"]);
+                        array_push($graph["cores"],$values["cor"]);
+                    }
+                    
+                }
                 $dashs["graficos"] = $graficos;
-                
             }
             
             return $data;
@@ -59,6 +78,7 @@
     }
 
     $app = new App();
+    $data = $app->getAllDash(2);
 
    
 
