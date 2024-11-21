@@ -26,7 +26,7 @@
 
         public function login($email, $senha){
             $termo = "'$email';";
-            $sql = SEARCH.$termo;
+            $sql = GETUSER.$termo;
             $usuario = $this->db->query($sql);
             if(password_verify($senha, $usuario['senha'])){
                 return $usuario;
@@ -34,6 +34,8 @@
                 return false;
             }
         }
+
+        //metodos para pegar Dashboards e tabelas
         public function getData($graficoId){
             $termo = "'$graficoId';";
             $sql =  $this->db->conn->prepare(GETDATAG . $termo);
@@ -44,14 +46,15 @@
 
         public function getGraphFor($id_dash){
             $termo = "'$id_dash';";
-            $sql =  $this->db->conn->prepare(GETGRAPH . $id_dash);
+            $sql =  $this->db->conn->prepare(GETGRAPH . $termo);
             $sql->execute();
             $usuario = $sql->fetchAll(PDO::FETCH_ASSOC);
             return $usuario;
         }
+
         public function getAllDash($id_user){
             $termo = "'$id_user';";
-            $sql =  $this->db->conn->prepare(GETDASH . $id_user);
+            $sql =  $this->db->conn->prepare(GETDASHbyUSER . $termo);
             $sql->execute();
             $data = $sql->fetchAll(PDO::FETCH_ASSOC);
             foreach ($data as &$dashs){
@@ -75,13 +78,29 @@
             return $data;
         }
 
+        //metodos Dashs
+        public function createDash($nome, $id_user){
+            $termo = "('$nome', '$id_user');";
+            $sql = CREATEDASH.$termo;
+            $this->db->query($sql);
+        }
+
+        public function deleteDash($id_dash, $id_user){
+            $sql = GETDASHbyID.$id_dash;
+            $data = $this->db->query($sql);
+            if($data['id_user'] === $id_user){
+                $this->db->query(DELETEDASH."$id_dash;");
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 
     $app = new App();
-    $data = $app->getAllDash(2);
+    // print_r($app->login('paulo.ss.loraschi@gmail.com', '123'));
+    // $app->createDash('oii', 10);
+    // $data = $app->getAllDash(10);
+    $app->deleteDash(5, 10);
 
-   
-
-    
-    
 ?>
