@@ -6,7 +6,20 @@
         exit;
     }
     
-
+    if($_SERVER["REQUEST_METHOD"]=== "POST"){
+        if(isset($_POST["nome"])){
+            $nome = $_POST["nome"];
+        }
+        if(isset($_POST["id_users"])){
+            $id_user = $_POST["id_users"];
+        }
+        if(isset($_POST["id"])){
+            $id = $_POST["id"];
+            print_r($id);
+        }
+        
+        
+    }
 ?>
 
 
@@ -49,21 +62,19 @@
        //classe usuário que contem seus atributos e metodos
 class usuario{
     constructor(id,nome,senha,email,dashboard){
-        this.id = id
-        this.nome = nome
+        this.nome = <?php $n =$_SESSION['name'];  echo "\"$n\"" . ' ;' ;?>
+        this.email = <?php $e =$_SESSION['email'];  echo "\"$e\"" . ' ;' ;?>
+        this.id = <?php echo $_SESSION["id"]?>;
         this.senha = senha
-        this.email = email
         this.dashboard = dashboard
 
         this.dashSelected = null
     }
     async getAllData(){
-        this.nome = <?php $n =$_SESSION['name'];  echo "\"$n\"" . ' ;' ;?>
-        this.email = <?php $e =$_SESSION['email'];  echo "\"$e\"" . ' ;' ;?>
-        this.id = <?php echo $_SESSION["id"]?>;
+
         var data = <?php echo json_encode($app->getAllDash($_SESSION["id"])) ?>;
         
-
+        this.dashboard = []
         data.forEach(line=>{
             
             this.dashboard.push(line)
@@ -77,12 +88,17 @@ class usuario{
         if(typeof iName.value === 'string' && iName.value.trim().length > 0){
             //cria o objeto  dashboard 
             abrirDash()
-            var requiNovoDash = await fetch(url+rota_Dash+createD,{
+
+            const dados = new URLSearchParams();
+            dados.append("nome", iName.value);
+            dados.append("id_user", this.id);
+
+            var requiNovoDash = await fetch("",{
                 method:'POST',
                 headers:{
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: JSON.stringify({nome:iName.value,id:this.id})
+                body: dados
             })
             if(requiNovoDash.ok){
                 await this.getAllData()
@@ -108,17 +124,16 @@ class usuario{
                 }
                 this.dashboard.splice(idx,1)
                 drawnDash()
-                var requiDelDash = await fetch(url+rota_Dash+deleteD,{
-                    method:'DELETE',
+                const dados = new URLSearchParams();
+                dados.append("id", element.id);
+                var requiDelDash = await fetch("",{
+                    method:'POST',
                     headers:{
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/x-www-form-urlencoded'
                     },
-                    body: JSON.stringify({id:id,token:this.tk})
+                    body: dados
                 })
-                if(requiDelDash.ok){
-                    await this.getAllData()
-                    
-                }
+                
             }
         });
         
@@ -243,11 +258,17 @@ class usuario{
 
         }
     }
-    quit(){
-        sessionStorage.setItem('token',null)
-        var home = document.createElement('a')
-        home.href = 'index.html'
-        home.click()
+    async quit(){
+        var end = await fetch("",{
+            method: 'POST',  // Usando POST para enviar dados
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: 'action=logout'
+        })
+        if(end.ok){
+            window.location.href = 'index.php';
+        }
     }
 }
 
