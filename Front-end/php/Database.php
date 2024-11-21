@@ -11,7 +11,7 @@
         private string $username;
         private string $password;
 
-        private PDO $conn;
+        public PDO $conn;
 
         public function __construct(){
             $this->host = getenv('HOST');
@@ -27,7 +27,6 @@
             try{
                 $this->conn = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->username, $this->password);
                 $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                echo "Conseguii\n"; 
             } catch (PDOException $e) {
                 echo "Erro de conexão: ".$e->getMessage();
             }
