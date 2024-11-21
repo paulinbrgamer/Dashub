@@ -1,10 +1,12 @@
 <?php
+    include 'php/app.php';
     session_start();
     if (!isset($_SESSION['user_id'])) {
         header("Location: index.php");
         exit;
     }
     
+
 ?>
 
 
@@ -40,59 +42,31 @@
         <h1 style="padding-bottom: 15px;text-align: center;width: 100%;" id="titled"></h1>
         <div id="Dashboard">
             
-            
+   
         </div>
     </main>
     <script>
-        //classe usuário que contem seus atributos e metodos
+       //classe usuário que contem seus atributos e metodos
 class usuario{
-    constructor(id,nome,senha,email,dashboard,tk){
+    constructor(id,nome,senha,email,dashboard){
         this.id = id
         this.nome = nome
         this.senha = senha
         this.email = email
         this.dashboard = dashboard
-        this.tk = tk
+
         this.dashSelected = null
     }
     async getAllData(){
-        this.nome = sessionStorage.getItem('nome')
-        this.email = sessionStorage.getItem('email')
-        const FetchDash = await fetch(url+rota_Dash+this.tk,{
-            headers:{
-                'Content-Type': 'application/json'
-            }
+        this.nome = <?php $n =$_SESSION['name'];  echo "\"$n\"" . ' ;' ;?>
+        this.email = <?php $e =$_SESSION['email'];  echo "\"$e\"" . ' ;' ;?>
+        this.id = <?php echo $_SESSION["id"]?>;
+        var data = <?php echo json_encode($app->getAllDash($_SESSION["id"])) ?>;
+
+
+        data.forEach(line=>{
+            this.dashboard.push(line)
         })
-        if(FetchDash.ok){
-            var dados = await FetchDash.json()
-            
-            if(dados){
-                //adicionar os dashboards ao site
-            this.dashboard = dados
-            }
-            else{
-                dados = []
-                this.dashboard = dados
-                
-            }
-            this.dashboard.forEach(async dashs=>{
-                var BuscarDadosGraficos = await fetch(url+rota_Graf,{
-                    method:'POST',
-                    headers:{
-                        'Content-Type': 'application/json'
-                    },
-                    body:JSON.stringify({dashId:dashs.id,token:this.tk})
-                })
-                if (BuscarDadosGraficos.ok){
-                    dashs.graficos = await BuscarDadosGraficos.json()
-                    desenharGraficos()
-                }
-            })
-        }
-        else if(FetchDash.status == 401){
-            this.quit()
-        }
-        
     }
     //metodo que adiciona um dashboard no atributo dashboar do usuário
     async adicionarDashboard(){
@@ -1250,27 +1224,34 @@ function generateColor(){
     return value
     
 }
-
+function toLight(){
+    var main = document.querySelector('main')
+    main.style.backgroundColor = '#edf2f3'
+    var nav = document.querySelector('nav')
+    nav.style.backgroundColor = '#edf2f3'
+    //aside
+    var aside = document.querySelector('aside')
+    aside.style.backgroundColor = 'white'
+    aside.style.borderRightColor = 'white'
+    var dashboard = document.getElementById("Dashboard")
+    dashboard.style.backgroundColor = 'white'
+}
+//conectar com o backend
 var url = 'https://api-dashub-dev.up.railway.app/'
 var rota_Dash = 'dash/'
 var createD = 'create'
 var deleteD = 'delete'
 var rota_Graf = 'graph/'
 var novoGra = 'create'
-if (!sessionStorage.getItem('id')){
-    <?
-        header("Location: index.php");
-        exit;
-    ?>
-}
-//instanciaão do usuario 
-var user = new usuario(0,null,'*******',null,null,sessionStorage.getItem('token'))
-user.getAllData()
-//objeto que controla o comportamento da barra lateral
+
+
 var as = {botaoAmostra:'',clicks:0}
 var gselected = {graficoID:null}
 defaltmain()
 
+    let user = new usuario(0,'paulo',3123,'pwldpawd',[]);
+    user.getAllData()
+    console.log(user);
     </script>
 </body>
 </html>
