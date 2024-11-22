@@ -6,6 +6,27 @@
         header("Location: index.php");
         exit;
     }
+    $dash_nome;
+    $id_user;
+    if($_SERVER["REQUEST_METHOD"]=== "POST"){
+        if(isset($_POST["dash_nome"])){
+            $dash_nome = $_POST["dash_nome"];
+        }
+        if(isset($_POST["id_user"])){
+            $id_user = $_POST["id_user"];
+            $app->createDash($dash_nome,$id_user);
+            
+        }
+        if(isset($_POST["id_dash_delete"])){
+            $id_dash_delete = $_POST["id_dash_delete"];
+        }
+        if(isset($_POST["id_user_delete"])){
+            $id_user_delete = $_POST["id_user_delete"];
+            $app->deleteDash((int)$id_dash_delete,(int) $id_user_delete);
+        }
+
+          
+    }
     
 ?>
 
@@ -61,14 +82,16 @@ class usuario{
     }
     async getAllData(){
 
-        var data = <?php echo json_encode($app->getAllDash($_SESSION["id"])) ?>;
-        
-        this.dashboard = []
-        data.forEach(line=>{
-            
+        var data = await fetch("getAllData.php")
+        if(data.ok){
+            var values = await data.json();
+            this.dashboard = []
+            values.forEach(line=>{
             this.dashboard.push(line)
-        })
-        console.log("fetch");
+            })
+            
+        }
+        
     }
     //metodo que adiciona um dashboard no atributo dashboar do usuário
     async adicionarDashboard(){
@@ -90,7 +113,8 @@ class usuario{
                 },
                 body: dados
             })
-            
+            await this.getAllData();
+            drawnDash();
             
         }
         else{
@@ -122,7 +146,7 @@ class usuario{
                     },
                     body: dados
                 })
-                
+                this.getAllData();
             }
         });
         
@@ -1260,42 +1284,12 @@ var as = {botaoAmostra:'',clicks:0}
 var gselected = {graficoID:null}
 defaltmain()
 
-    var user = new usuario(0,'paulo',3123,'pwldpawd',[]);
+   let user = new usuario(0,'paulo',3123,'pwldpawd',[]);
     user.getAllData()
     console.log(user);
+
     </script>
 
-    <?php
-    $dash_nome;
-    $id_user;
-    if($_SERVER["REQUEST_METHOD"]=== "POST"){
-        if(isset($_POST["dash_nome"])){
-            $dash_nome = $_POST["dash_nome"];
-        }
-        if(isset($_POST["id_user"])){
-            $id_user = $_POST["id_user"];
-            $app->createDash($dash_nome,$id_user);
-            echo "<script> data = ".json_encode($app->getAllDash($_SESSION["id"]))."
-        
-            user.dashboard = []
-            data.forEach(line=>{
-                
-                user.dashboard.push(line)
-            });
-            console.log(user)
-            </script>";
-        }
-        if(isset($_POST["id_dash_delete"])){
-            $id_dash_delete = $_POST["id_dash_delete"];
-        }
-        if(isset($_POST["id_user_delete"])){
-            $id_user_delete = $_POST["id_user_delete"];
-            $app->deleteDash((int)$id_dash_delete,(int) $id_user_delete);
-        }
-        
-          
-    }
-    
-    ?>
+
 </body>
 </html>
