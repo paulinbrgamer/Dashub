@@ -98,9 +98,5 @@
     }
 
     $app = new App();
-    // print_r($app->login('paulo.ss.loraschi@gmail.com', '123'));
-    // $app->createDash('oii', 10);
-    // $data = $app->getAllDash(10);
-    $app->deleteDash(5, 10);
 
 ?>
