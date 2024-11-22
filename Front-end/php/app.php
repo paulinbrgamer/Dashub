@@ -95,12 +95,31 @@
                 return false;
             }
         }
+
+        //metodos Graphs
+        public function createGraph($nome, $tipo, $ordem, $id_dash, $array_elementos, $array_dados, $array_cores){
+            $termo = "('$tipo', '$nome', '$ordem', $id_dash);";
+            $sql = CREATEGRAPH.$termo;
+            $this->db->query($sql);
+            $search = "nome = '$nome' AND id_dash = $id_dash;";
+            $sql_search = GETIDGRAPH.$search;
+            $ID = $this->db->query($sql_search)['id'];
+            $termoRefer = "";
+            for($i = 0; $i < sizeof($array_elementos); $i++){
+                if($i === sizeof($array_elementos) - 1){
+                    $termoRefer .= "('$array_elementos[$i]', $array_dados[$i], '$array_cores[$i]', $ID);";
+                } else {
+                    $termoRefer .= "('$array_elementos[$i]', $array_dados[$i], '$array_cores[$i]', $ID), ";
+                }
+            }
+            $sqlRefer = CREATEREFER.$termoRefer;
+            $this->db->query($sqlRefer);
+        }
+
+        public function deleteGraph($id_graph){
+            $sql = DELETEGRAPH.$id_graph;
+            echo $sql;
+            $this->db->query($sql);
+        }
     }
-
-    $app = new App();
-    // print_r($app->login('paulo.ss.loraschi@gmail.com', '123'));
-    // $app->createDash('oii', 10);
-    // $data = $app->getAllDash(10);
-    $app->deleteDash(5, 10);
-
 ?>
