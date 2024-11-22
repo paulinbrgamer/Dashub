@@ -58,5 +58,9 @@
     const GETGRAPH = "SELECT * FROM graficos WHERE id_dash = ";   
     const GETDATAG = "SELECT * FROM referencias WHERE graficoId = ";
     const CREATEDASH = "INSERT INTO dashboards (nome, id_user) VALUES ";
+    const CREATEGRAPH = "INSERT INTO graficos (tipo, nome, ordem, id_dash) VALUES ";
+    const CREATEREFER = "INSERT INTO referencias (nome, valor, cor, graficoId) VALUES ";
     const DELETEDASH = "DELETE FROM dashboards WHERE id = ";
+    const DELETEGRAPH = "DELETE FROM graficos WHERE id = ";
+    const GETIDGRAPH = "SELECT id FROM graficos WHERE ";
 ?>
