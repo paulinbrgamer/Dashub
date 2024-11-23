@@ -9,6 +9,7 @@
     $dash_nome;
     $id_user;
     if($_SERVER["REQUEST_METHOD"]=== "POST"){
+        //ADIÇÃO DASH
         if(isset($_POST["dash_nome"])){
             $dash_nome = $_POST["dash_nome"];
         }
@@ -17,6 +18,7 @@
             $app->createDash($dash_nome,$id_user);
             
         }
+        //DELEÇÃO DASH
         if(isset($_POST["id_dash_delete"])){
             $id_dash_delete = $_POST["id_dash_delete"];
         }
@@ -24,7 +26,13 @@
             $id_user_delete = $_POST["id_user_delete"];
             $app->deleteDash((int)$id_dash_delete,(int) $id_user_delete);
         }
-
+        //adição grafico  dados.append("nome", graficoNovo.nome);
+        if(isset($_POST["dashId"])){
+            $app->createGraph($_POST["nome"],$_POST["tipo"],$_POST["ordem"],$_POST["dashId"],json_decode($_POST["elementos"]),json_decode($_POST["dados"]),json_decode($_POST["cores"]));
+        }
+        if(isset($_POST["id_graph"])){
+            $app->deleteGraph($_POST["id_graph"]);
+        }
           
     }
     
@@ -82,9 +90,9 @@ class usuario{
     }
     async getAllData(){
 
-        var data = await fetch("getAllData.php")
-        if(data.ok){
-            var values = await data.json();
+        var alldata = await fetch("getAllData.php")
+        if(alldata.ok){
+            var values = await alldata.json();
             this.dashboard = []
             values.forEach(line=>{
             this.dashboard.push(line)
@@ -102,16 +110,16 @@ class usuario{
             //cria o objeto  dashboard 
             abrirDash()
 
-            const dados = new URLSearchParams();
-            dados.append("dash_nome", iName.value);
-            dados.append("id_user", this.id);
+            const request = new URLSearchParams();
+            request.append("dash_nome", iName.value);
+            request.append("id_user", this.id);
 
             var requiNovoDash = await fetch("",{
                 method:'POST',
                 headers:{
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: dados
+                body: request
             })
             await this.getAllData();
             drawnDash();
@@ -136,15 +144,15 @@ class usuario{
                 }
                 this.dashboard.splice(idx,1)
                 drawnDash()
-                const dados = new URLSearchParams();
-                dados.append("id_dash_delete", element.id);
-                dados.append("id_user_delete",element.id_user)
+                const request = new URLSearchParams();
+                request.append("id_dash_delete", element.id);
+                request.append("id_user_delete",element.id_user)
                 var requiDelDash = await fetch("",{
                     method:'POST',
                     headers:{
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
-                    body: dados
+                    body: request
                 })
                 this.getAllData();
             }
@@ -185,12 +193,14 @@ class usuario{
                         d.graficos.splice(idx,1)
                         desenharGraficos()
                         drawPainelGraphcs()
-                        var requestDelGraf = await fetch(url+rota_Graf+deleteD,{
-                            method:'DELETE',
+                        const request = new URLSearchParams();
+                        request.append("id_graph", g.id);
+                        var requestDelGraf = await fetch("",{
+                            method:'POST',
                             headers:{
-                                'Content-Type': 'application/json'
+                                'Content-Type': 'application/x-www-form-urlencoded'
                             },
-                            body: JSON.stringify({id:g.id,token:this.tk})
+                            body: request
                         })
                         //redesenhar os graficos na tela e o painel de graficos
                         
@@ -220,7 +230,7 @@ class usuario{
             var id_dash = this.dashSelected;
             var nome = document.getElementById('nomeG').value
             var tipo = document.getElementById('tipoG').value
-            var elementos =[]
+            var elementos =[];
             //obter todos os nomes dos elementos do grafico e colocar no array elementos
             for (var i =0;i<vezes;i++){
                 var c = document.getElementById(`nad${i+1}`).value
@@ -243,30 +253,31 @@ class usuario{
             var ordem = document.getElementById('ordemG').value
             //crair novo grafico a partir dos dados que foram fornecidos
             var graficoNovo= new grafico(this.ngraf,tipo,elementos,dados,id_dash,nome,cores,ordem);
+            const request = new URLSearchParams();
+            request.append("nome", graficoNovo.nome);
+            request.append("tipo",graficoNovo.tipo);
+            request.append("ordem", graficoNovo.ordem);
+            request.append("elementos", JSON.stringify(graficoNovo.elementos));
+            request.append("dados", JSON.stringify(graficoNovo.dados));
+            request.append("cores", JSON.stringify(graficoNovo.cores));
+            request.append("dashId",this.dashSelected);
+            
             painelDash()
             drawPainelGraphcs()
             //adicionar no dashboard o novo grafico
-            var requiNovoG = await fetch(url+rota_Graf+novoGra,{
+            var requiNovoG = await fetch("",{
                 method:'POST',
                 headers:{
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: JSON.stringify({
-                    nome: graficoNovo.nome,
-                    tipo: graficoNovo.tipo,
-                    ordem: graficoNovo.ordem,
-                    elementos: graficoNovo.elementos,
-                    dados: graficoNovo.dados,
-                    cores: graficoNovo.cores,
-                    dashId: this.dashSelected,
-                    token:this.tk
-                })
+                body: request
             })
 
             if(requiNovoG.ok){
                 
                 await this.getAllData()
                 drawPainelGraphcs()
+                desenharGraficos()
             }
 
         }
