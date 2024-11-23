@@ -1,3 +1,6 @@
+
+
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -31,6 +34,43 @@
         <input onclick="cadastrar()" type="button" value="Cadastrar" required>
     </form>
 
-    <script src="cadastro/cadastro.js"></script>
+    <script>
+async function cadastrar(){
+    var img = document.getElementById('load')
+    img.classList.add('mostrar')
+    img.classList.remove('apagar')
+    var name = document.getElementById('idnome').value
+    var mail = document.getElementById('idemail').value
+    var password = document.getElementById('ipword').value
+    const request = new URLSearchParams();
+    request.append("nome", name);
+    request.append("senha", password);
+    request.append("email", mail);
+    if (name && mail && password){
+       var requisicao = await fetch("CreateUser.php",{
+        method:'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded', // Define o tipo do conteúdo
+        },
+        body: request
+    })
+    img.classList.remove('mostrar')
+    img.classList.add('apagar')
+    if(requisicao.ok){
+        var response = await requisicao.json();
+        window.alert(response.message);
+        if(response.message == 'EMAIL CADASTRADO COM SUCESSO!'){
+            var home = document.createElement('a')
+            home.href = 'index.php'
+            home.click()
+        }
+
+    }
+    
+    }
+    
+    
+}
+    </script>
 </body>
 </html>

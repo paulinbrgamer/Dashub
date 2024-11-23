@@ -1,6 +1,5 @@
 <?php
-    include 'php/app.php';
-    include 'teste.php';
+    include_once 'php/app.php';
     session_start();
     if (!isset($_SESSION['id'])) {
         header("Location: index.php");

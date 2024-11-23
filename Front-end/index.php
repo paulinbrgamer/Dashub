@@ -34,7 +34,7 @@
         exit;
         }
         else{
-            echo "<script>window.alert('não foi possivel login')</script>";
+            echo "<script>window.alert('CREDENCIAIS ERRADAS, TENTE NOVAMENTE!')</script>";
         }
         
     }
@@ -59,7 +59,7 @@
         <label for="ipword">Senha:</label>
         <input type="password" name="pword" id="ipword">
         <input  type="submit" value="Entrar" onclick="login()">
-        <a style="width: 70px;" href="cadastro.html">Registrar</a>
+        <a style="width: 70px;" href="cadastro.php">Registrar</a>
     </form> 
 </body>
 </html>

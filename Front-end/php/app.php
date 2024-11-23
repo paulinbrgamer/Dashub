@@ -20,7 +20,7 @@
                 return $this->login($email, $senha);
             }catch(PDOException $e){ //caso email já exista
                 // echo $e->getMessage();
-                return $e->getMessage();
+                return $e->getCode();
             }
         }
 
