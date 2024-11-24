@@ -1110,7 +1110,7 @@ function criarGraficoPainel(){
 }
 function AbrirRepositorios(){
     var home = document.createElement('a')
-        home.href = 'repositorios.html'
+        home.href = 'repositorios.php'
         home.click()
 }
 //função que pega os dados em forma de texto e faz a analise lexa para dividir os dados e guardar cada "celula" em um array
