@@ -1264,7 +1264,12 @@ function generateColor(){
     
     for(var i =0;i<6;i+=2){
         var inteiro = Math.floor(Math.random() *(0-5)+ 0)*-1
-        value+= inteiro+letters[inteiro]
+        if(inteiro <=3){
+            value+= letters[inteiro]+inteiro
+        }else{
+            value+= inteiro+letters[inteiro]
+        }
+        
     }
     return value
     
