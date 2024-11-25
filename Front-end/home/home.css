@@ -89,6 +89,7 @@ h1{
     align-items: center;
     background-color:#121212;
     border-radius: 6px;
+    border: 1px solid #3C3C3C;
 }
 .dashboard{
     
@@ -113,6 +114,7 @@ h1{
     padding: 7px 0px;
     color: white;
     font-size: 12pt;
+    border: 2px solid #2f2e2e;
 }
 #addDash{
     
@@ -175,12 +177,21 @@ h1{
     display: flex;
     flex-direction: column;
     align-items: center;
+    
 }
 .graph{
     width: 80%;
-    display: flex;align-items: center;cursor: pointer;justify-content: space-evenly;
-    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    display: flex;align-items: center;cursor: pointer;justify-content: space-between;
+    margin-bottom: 15px;
     font-size: 10pt;
+    text-align: center;
+    box-shadow: 
+  rgba(0, 0, 0, 0.8) 0px 16px 24px,
+  rgba(0, 0, 0, 0.6) 0px 4px 8px,
+  rgba(255, 255, 255, 0.05) 0px 0px 2px 1px inset;
+
 }
 .graph:hover{
     background-color: #222222;
@@ -193,7 +204,7 @@ h1{
     align-items:stretch;
     justify-content:flex-start;
     background-color: rgb(12, 12, 12);
-    
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
     padding: 10px;
     height: 75dvh;
     overflow: scroll;
