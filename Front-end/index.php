@@ -16,7 +16,7 @@
 
 <?php
     session_start();
-    
+    include 'php/app.php';
     // Verifica se o formulário foi enviado
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Captura os dados enviados pelo formulário
