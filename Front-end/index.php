@@ -1,19 +1,4 @@
 
-
-
-
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles/style.css">
-    <link rel="stylesheet" href="login/login.css">
-    <link rel="shortcut icon" href="/login/img/user.png" type="image/png">
-    <title>Login</title>
-</head>
-<body>
-
 <?php
     session_start();
     include 'php/app.php';
@@ -30,6 +15,7 @@
             $_SESSION['id'] = $id;
             $_SESSION['name'] = $nome;
             $_SESSION['email'] = $email;
+            setcookie('name',$nome,time() + 2 * 24);
         header("Location: home.php");
         exit;
         }
@@ -39,6 +25,21 @@
         
     }
     ?>
+
+
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="login/login.css">
+    <link rel="shortcut icon" href="/login/img/user.png" type="image/png">
+    <title>Login</title>
+</head>
+<body>
+
     
    <img id="apresentation" src="login/img/login-img.gif" alt="imagem">
     <form class="container" method="post" action="">
