@@ -16,7 +16,7 @@
 
 <?php
     session_start();
-    include 'php/app.php';
+    
     // Verifica se o formulário foi enviado
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Captura os dados enviados pelo formulário
@@ -39,21 +39,17 @@
         
     }
     ?>
-
-
-    <div class="apagar" id="load">
-        <img src="login/img/yibo-wangyibo.gif" alt="gif animado" >
-    </div>
     
-    <div style="display: flex;align-items: center;margin-bottom: 100px;">
+   <img id="apresentation" src="login/img/login-img.gif" alt="imagem">
+    <form class="container" method="post" action="">
+    <div style="display: flex;align-items: center;margin-bottom: 10px; align-self:center;">
         <h1 style="font-size: 28pt;margin-right:5px;color: white;">Dash</h1>
         <div style="background-color:rgb(255, 255, 255); width:60px;border-radius:4px;">
             <h1 style="color:black;font-weight:800;text-align:center;padding:5px;font-size:20pt;">Hub</h1>
         </div>
     </div>
     
-    <form class="container" method="post" action="">
-        <img style="margin: auto;" src="login/img/user.png" alt="imagem de login" width="54">
+        <img style="margin: auto;margin-bottom: 30px;" src="login/img/user.png" alt="imagem de login" width="54">
         <label for="idemail">E-mail:</label>
         <input type="email" name="email" id="idemail">
         <label for="ipword">Senha:</label>
