@@ -76,7 +76,8 @@ class usuario{
         
     }
     //remover grafico
-    removeGraph(id){
+    removeGraph(event,id){
+        event.stopPropagation();
         //encontrar o dashboard que está o grafico que foi selecionado para deletar
         this.dashboard.forEach(d=>{
             if (d.id == this.dashSelected){
